@@ -1,0 +1,2 @@
+ALTER TABLE t_product
+    ADD COLUMN quantity INTEGER NOT NULL;

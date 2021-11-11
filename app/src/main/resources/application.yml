@@ -1,0 +1,69 @@
+spring:
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      schema: ${DATABASE_SCHEMA:public}
+      minimum-idle: 6
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      org:
+        hibernate:
+          envers:
+            format_sql: true
+            audit_table_suffix: ''
+            audit_table_prefix: audit_
+      hibernate:
+        format_sql: true
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${OAUTH_GOOGLE_CLIENT_ID}
+            client-secret: ${OAUTH_GOOGLE_CLIENT_SECRET}
+
+  data:
+    rest:
+      detection-strategy: annotated
+  main:
+    allow-bean-definition-overriding: true
+  mail:
+    host: ${EMAIL_HOST}
+    port: ${EMAIL_PORT}
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          writetimeout: 5000
+          connectiontimeout: 5000
+          starttls:
+            enable: true
+  flyway:
+    enabled: false
+
+server:
+  port: ${SERVER_PORT}
+  servlet:
+    context-path: ${SERVLET_CONTEXT_PATH}
+
+# CUSTOM SAWATU VARIABLES
+sawatu:
+  session:
+    access-token-duration-minutes: ${SAWATU_SESSION_ACCESS_TOKEN_DURATION_MINUTES:60}
+    refresh-token-duration-minutes: ${SAWATU_SESSION_REFRESH_TOKEN_DURATION_MINUTES:43200}
+    token:
+      issuer: ${TOKEN_ISSUER:www.sawatu-app.com}
+
+
+
