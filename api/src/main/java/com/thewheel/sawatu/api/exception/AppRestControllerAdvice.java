@@ -1,7 +1,7 @@
 package com.thewheel.sawatu.api.exception;
 
-import com.thewheel.sawatu.core.exception.BadRequestException;
-import com.thewheel.sawatu.core.exception.InvalidOperationException;
+import com.thewheel.sawatu.shared.exception.BadRequestException;
+import com.thewheel.sawatu.shared.exception.InvalidOperationException;
 import org.hibernate.TransientPropertyValueException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -9,18 +9,22 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.springframework.http.HttpStatus.*;
+
 @RestControllerAdvice
 public class AppRestControllerAdvice {
 
     @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(NOT_FOUND)
     public AppError handleEntityNotFoundException(EntityNotFoundException exception) {
-        final HttpStatus notFound = HttpStatus.NOT_FOUND;
+        final HttpStatus notFound = NOT_FOUND;
         return AppError.builder()
                 .httpCode(notFound.value())
                 .message(exception.getMessage())
@@ -28,8 +32,9 @@ public class AppRestControllerAdvice {
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseStatus(INTERNAL_SERVER_ERROR)
     public AppError handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
-        final HttpStatus serverError = HttpStatus.INTERNAL_SERVER_ERROR;
+        final HttpStatus serverError = INTERNAL_SERVER_ERROR;
         return AppError.builder()
                 .httpCode(serverError.value())
                 .message(exception.getMessage())
@@ -38,8 +43,9 @@ public class AppRestControllerAdvice {
     }
 
     @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(FORBIDDEN)
     public AppError handleAccessDeniedException(AccessDeniedException exception) {
-        final HttpStatus forbidden = HttpStatus.FORBIDDEN;
+        final HttpStatus forbidden = FORBIDDEN;
         return AppError.builder()
                 .httpCode(forbidden.value())
                 .message(exception.getMessage())
@@ -48,8 +54,9 @@ public class AppRestControllerAdvice {
     }
 
     @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(BAD_REQUEST)
     public AppError handleBadRequestException(BadRequestException exception) {
-        final HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+        final HttpStatus badRequest = BAD_REQUEST;
         return AppError.builder()
                 .httpCode(badRequest.value())
                 .message(exception.getMessage())
@@ -58,8 +65,9 @@ public class AppRestControllerAdvice {
     }
 
     @ExceptionHandler(InvalidOperationException.class)
+    @ResponseStatus(BAD_REQUEST)
     public AppError handleInvalidOperationException(InvalidOperationException exception) {
-        final HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+        final HttpStatus badRequest = BAD_REQUEST;
         return AppError.builder()
                 .httpCode(badRequest.value())
                 .message(exception.getMessage())
@@ -67,8 +75,9 @@ public class AppRestControllerAdvice {
     }
 
     @ExceptionHandler(TransientPropertyValueException.class)
+    @ResponseStatus(BAD_REQUEST)
     public AppError handleTransientPropertyValueException(TransientPropertyValueException exception) {
-        final HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+        final HttpStatus badRequest = BAD_REQUEST;
         return AppError.builder()
                 .httpCode(badRequest.value())
                 .message(exception.getMessage())
@@ -77,8 +86,9 @@ public class AppRestControllerAdvice {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(BAD_REQUEST)
     public AppError handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
-        final HttpStatus beanNotValid = HttpStatus.BAD_REQUEST;
+        final HttpStatus beanNotValid = BAD_REQUEST;
         Map<String, String> errors = new HashMap<>();
         exception.getBindingResult().getAllErrors().forEach((beanError) -> {
             String fieldName = ((FieldError) beanError).getField();

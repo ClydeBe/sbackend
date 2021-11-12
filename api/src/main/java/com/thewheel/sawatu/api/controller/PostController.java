@@ -30,11 +30,6 @@ public class PostController {
     @ApiOperation(value = POST_GET_ALL,
             notes = POST_GET_ALL_NOTE,
             response = PageDto.class)
-    @Operation(
-            method = GET,
-            description = POST_GET_ALL,
-            security = @SecurityRequirement(name = SECURITY_NAME)
-    )
     @ApiResponse(code = CODE_OK,
             message = MESSAGE_OK,
             response = PageDto.class)
@@ -52,11 +47,6 @@ public class PostController {
     @ApiOperation(value = POST_GET_LAST,
             notes = POST_GET_LAST_NOTE,
             response = PostDto[].class)
-    @Operation(
-            method = GET,
-            description = POST_GET_LAST,
-            security = @SecurityRequirement(name = SECURITY_NAME)
-    )
     @ApiResponse(code = CODE_OK,
             message = MESSAGE_OK,
             response = PostDto[].class)
@@ -70,11 +60,6 @@ public class PostController {
     @ApiOperation(value = POST_GET,
             notes = POST_GET_NOTE,
             response = PostDto.class)
-    @Operation(
-            method = GET,
-            description = POST_GET,
-            security = @SecurityRequirement(name = SECURITY_NAME)
-    )
     @ApiResponse(code = CODE_OK,
             message = MESSAGE_OK,
             response = PostDto.class)

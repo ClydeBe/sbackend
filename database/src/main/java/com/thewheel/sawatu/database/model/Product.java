@@ -41,7 +41,7 @@ public class Product {
     private String image;
 
     @Column(name = "quantity", nullable = false)
-    private Long quantity;
+    private Integer quantity;
 
     @Column(name = "price")
     private Float price;

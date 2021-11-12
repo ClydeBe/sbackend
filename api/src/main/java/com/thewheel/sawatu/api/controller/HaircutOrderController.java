@@ -64,7 +64,6 @@ public class HaircutOrderController {
             response = HaircutOrderDto.class)
     @PostAuthorize("#returnObject.get().clientName == authentication.name")
     @GetMapping(ENDPOINT_HAIRCUT_ORDER_GET)
-    @ResponseBody
     public HaircutOrderDto get(@PathVariable("id") Long id) {
         return haircutOrderService.get(id);
     }
@@ -84,7 +83,6 @@ public class HaircutOrderController {
             response = HaircutOrderDto.class)
     @PreAuthorize("#haircutOrderDto.clientName == authentication.name")
     @PostMapping(ENDPOINT_HAIRCUT_ORDER_CREATE)
-    @ResponseBody
     public HaircutOrderDto create(@Valid @RequestBody HaircutOrderDto haircutOrderDto) {
         return haircutOrderService.save(haircutOrderDto);
     }
@@ -104,7 +102,6 @@ public class HaircutOrderController {
             response = HaircutOrderDto.class)
     @PreAuthorize("#haircutOrderDto.clientName == authentication.name")
     @PutMapping(ENDPOINT_HAIRCUT_ORDER_UPDATE)
-    @ResponseBody
     public HaircutOrderDto update(@Valid @RequestBody HaircutOrderDto haircutOrderDto) {
         return haircutOrderService.save(haircutOrderDto);
     }
@@ -121,7 +118,6 @@ public class HaircutOrderController {
             message = MESSAGE_OK)
     @PreAuthorize("#haircutOrderDto.clientName == authentication.name")
     @DeleteMapping(ENDPOINT_HAIRCUT_ORDER_DELETE)
-    @ResponseBody
     public void delete(@RequestBody HaircutOrderDto haircutOrderDto) {
         haircutOrderService.delete(haircutOrderDto);
     }

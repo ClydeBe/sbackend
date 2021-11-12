@@ -29,11 +29,6 @@ public class ReviewController {
     @ApiOperation(value = REVIEW_GET_ALL,
             notes = REVIEW_GET_ALL_NOTE,
             response = PageDto.class)
-    @Operation(
-            method = GET,
-            description = REVIEW_GET_ALL,
-            security = @SecurityRequirement(name = SECURITY_NAME)
-    )
     @ApiResponse(code = CODE_OK,
             message = MESSAGE_OK,
             response = PageDto.class)
@@ -50,11 +45,6 @@ public class ReviewController {
     @ApiOperation(value = REVIEW_GET,
             notes = REVIEW_GET_NOTE,
             response = ReviewDto.class)
-    @Operation(
-            method = GET,
-            description = REVIEW_GET,
-            security = @SecurityRequirement(name = SECURITY_NAME)
-    )
     @ApiResponse(code = CODE_OK,
             message = MESSAGE_OK,
             response = ReviewDto.class)
@@ -75,7 +65,6 @@ public class ReviewController {
     @ApiResponse(code = CODE_CREATED,
             message = MESSAGE_CREATED,
             response = ReviewDto.class)
-    @GetMapping(ENDPOINT_REVIEW_GET)
     @PreAuthorize("#reviewDto.reviewerName == authentication.name and hasRole('ROLE_USER')")
     @PostMapping(ENDPOINT_REVIEW_CREATE)
     @ResponseStatus(HttpStatus.CREATED)

@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://ec2-34-250-16-127.eu-west-1.compute.amazonaws.com:5432/dfa2mlnq5gobdr
+    username: sncwhyjpsystla
+    password: 625b7e9dd98cea5fa73199dad34a5f59537cf225ab4ecd6b0d24ad9f6fa989a9
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: create-drop
+  flyway:
+    enabled: false

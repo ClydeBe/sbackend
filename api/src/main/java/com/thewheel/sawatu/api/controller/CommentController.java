@@ -28,11 +28,6 @@ public class CommentController {
     @ApiOperation(value = COMMENT_GET_ALL,
             notes = COMMENT_GET_ALL_NOTE,
             response = PageDto.class)
-    @Operation(
-            method = GET,
-            description = COMMENT_GET_ALL,
-            security = @SecurityRequirement(name = SECURITY_NAME)
-    )
     @ApiResponse(code = CODE_OK,
             message = MESSAGE_OK,
             response = PageDto.class)
@@ -48,11 +43,6 @@ public class CommentController {
     @ApiOperation(value = COMMENT_GET,
             notes = COMMENT_GET_NOTE,
             response = CommentDto.class)
-    @Operation(
-            method = GET,
-            description = COMMENT_GET_ALL,
-            security = @SecurityRequirement(name = SECURITY_NAME)
-    )
     @ApiResponse(code = CODE_OK,
             message = MESSAGE_OK,
             response = CommentDto.class)

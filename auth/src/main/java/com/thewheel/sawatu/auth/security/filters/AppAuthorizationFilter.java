@@ -5,7 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.thewheel.sawatu.auth.security.SignatureFactory;
-import org.springframework.security.access.AccessDeniedException;
+import com.thewheel.sawatu.shared.exception.BadRequestException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 
-import static com.thewheel.sawatu.shared.constant.Constants.*;
+import static com.thewheel.sawatu.shared.constant.Constants.TOKEN_GRANTED_AUTHORITY_NAME;
 
 public class AppAuthorizationFilter extends OncePerRequestFilter {
     private final SignatureFactory signatureFactory;
@@ -31,16 +31,14 @@ public class AppAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        System.out.println("====================== INSIDE FILTER =========================");
         String authHeader = request.getHeader("Authorization");
         String path = request.getServletPath();
 
-        if(PUBLIC_ENDPOINTS_EXACT.contains(path) ||
-           PUBLIC_ENDPOINTS_PATTERN.stream().anyMatch(path::contains)) {
+        if(authHeader == null) {
             filterChain.doFilter(request, response);
-        } else if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            System.out.println("====================== INSIDE LONG =========================");
-
+            return;
+        }
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
             try {
                 String token = authHeader.substring(7);
                 String subject = JWT.decode(token).getSubject();
@@ -57,10 +55,8 @@ public class AppAuthorizationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(auth);
                 filterChain.doFilter(request, response);
             } catch (Exception exception) {
-                throw new RuntimeException(exception);
+                throw new BadRequestException(exception.getMessage());
             }
-        } else {
-            throw new AccessDeniedException("No authorization token found");
         }
     }
 }

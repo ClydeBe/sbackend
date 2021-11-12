@@ -1,13 +1,11 @@
 package com.thewheel.sawatu.core.service.interfaces;
 
-import com.thewheel.sawatu.core.exception.BadRequestException;
+import com.thewheel.sawatu.shared.exception.BadRequestException;
 import com.thewheel.sawatu.database.model.Role;
 import com.thewheel.sawatu.database.model.User;
 import com.thewheel.sawatu.shared.dto.PageDto;
 import com.thewheel.sawatu.shared.dto.user.UserDto;
 import org.springframework.data.domain.Pageable;
-
-import java.util.Optional;
 
 public interface UserService {
 

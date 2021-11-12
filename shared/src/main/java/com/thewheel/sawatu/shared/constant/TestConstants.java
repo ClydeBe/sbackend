@@ -17,10 +17,10 @@ public class TestConstants {
     public static final Long ID_5 = 5L;
 
     private static final String EMAIL = "USER_%s@SAWATU.COM";
-    public static final String EMAIL_1 = String.format(EMAIL, 1);
-    public static final String EMAIL_2 = String.format(EMAIL, 2);
-    public static final String EMAIL_3 = String.format(EMAIL, 3);
-    public static final String EMAIL_4 = String.format(EMAIL, 4);
+    public static final String EMAIL_1 = String.format(EMAIL, "1");
+    public static final String EMAIL_2 = String.format(EMAIL, "2");
+    public static final String EMAIL_3 = String.format(EMAIL, "3");
+    public static final String EMAIL_4 = String.format(EMAIL, "4");
 
     public final static Role ROLE_VENDOR = Role.VENDOR;
     public final static Role ROLE_ADMIN = Role.ADMIN;

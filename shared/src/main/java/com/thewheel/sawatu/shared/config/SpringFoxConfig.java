@@ -78,26 +78,22 @@ public class SpringFoxConfig {
                 responses.get("NOT_FOUND"),
                 responses.get("BAD_REQUEST"),
                 responses.get("FORBIDDEN"),
-                responses.get("UNAUTHORIZED")
-                                                 ));
+                responses.get("UNAUTHORIZED")));
         docket.globalResponses(POST, Arrays.asList(
                 responses.get("CREATED"),
                 responses.get("BAD_REQUEST"),
                 responses.get("FORBIDDEN"),
-                responses.get("UNAUTHORIZED")
-                                                  ));
+                responses.get("UNAUTHORIZED")));
         docket.globalResponses(PUT, Arrays.asList(
                 responses.get("OK"),
                 responses.get("BAD_REQUEST"),
                 responses.get("FORBIDDEN"),
-                responses.get("UNAUTHORIZED")
-                                                 ));
+                responses.get("UNAUTHORIZED")));
         docket.globalResponses(DELETE, Arrays.asList(
                 responses.get("NOT_FOUND"),
                 responses.get("BAD_REQUEST"),
                 responses.get("FORBIDDEN"),
-                responses.get("UNAUTHORIZED")
-                                                    ));
+                responses.get("UNAUTHORIZED")));
     }
 
 }

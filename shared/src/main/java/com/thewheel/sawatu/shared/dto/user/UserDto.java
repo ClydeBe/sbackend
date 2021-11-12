@@ -19,7 +19,6 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @NoArgsConstructor
 public class  UserDto {
 
-    @NotBlank
     private Address address;
     @NotBlank
     private String username;

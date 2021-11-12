@@ -1,6 +1,6 @@
 package com.thewheel.sawatu.core.service.implementations;
 
-import com.thewheel.sawatu.core.exception.BadRequestException;
+import com.thewheel.sawatu.shared.exception.BadRequestException;
 import com.thewheel.sawatu.core.service.interfaces.RoleService;
 import com.thewheel.sawatu.database.model.User;
 import com.thewheel.sawatu.database.repository.UserRepository;

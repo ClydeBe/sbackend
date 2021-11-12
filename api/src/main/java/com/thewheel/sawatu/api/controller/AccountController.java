@@ -6,13 +6,13 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.thewheel.sawatu.auth.security.SecurityConstantsBean;
 import com.thewheel.sawatu.auth.security.SignatureFactory;
 import com.thewheel.sawatu.auth.security.token.TokenFactory;
-import com.thewheel.sawatu.core.exception.BadRequestException;
 import com.thewheel.sawatu.core.mailing.EmailService;
 import com.thewheel.sawatu.core.service.interfaces.UserService;
 import com.thewheel.sawatu.database.model.User;
 import com.thewheel.sawatu.shared.dto.RefreshTokenDto;
 import com.thewheel.sawatu.shared.dto.mapper.Mapper;
 import com.thewheel.sawatu.shared.dto.user.UserDto;
+import com.thewheel.sawatu.shared.exception.BadRequestException;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,7 +34,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.thewheel.sawatu.shared.constant.ApiDocumentationConstants.POST;
 import static com.thewheel.sawatu.shared.constant.ApiDocumentationConstants.*;
 import static com.thewheel.sawatu.shared.constant.ApiEndpointsConstants.*;
 import static com.thewheel.sawatu.shared.constant.Constants.TOKEN_GRANTED_AUTHORITY_NAME;
@@ -79,25 +78,25 @@ public class AccountController {
     }
 
 
+
+
     @ApiOperation(value = ACCOUNT_CREATE_USER,
             notes = ACCOUNT_CREATE_USER_NOTE,
             response = UserDto.class)
-    @Operation(
-            method = POST,
-            description = ENDPOINT_ACCOUNT_CREATE_USER,
-            security = @SecurityRequirement(name = SECURITY_NAME)
-    )
     @ApiResponse(code = 201,
             message = MESSAGE_CREATED,
             response = UserDto.class)
     @PostMapping(ENDPOINT_ACCOUNT_REGISTER)
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto createUser(@Valid @RequestBody UserDto user) {
+        User tmp = userService.fromDtoToUser(user, true);
+        user = mapper.fromEntity(tmp);
         String token = tokenFactory.generateAccountActivationToken(user.getUsername());
         emailService.sendActivationMessage(user, token, user.getEmail());
         emailService.sendWelcomeMessage(user.getUsername(), user.getEmail());
         return userService.create(user);
     }
+
 
 
     @ApiOperation(value = ACCOUNT_VERIFY_EMAIL,
@@ -106,11 +105,6 @@ public class AccountController {
     @ApiResponse(code = 200,
             message = MESSAGE_OK,
             response = String.class)
-    @Operation(
-            method = GET,
-            description = ENDPOINT_ACCOUNT_VERIFY_EMAIL,
-            security = @SecurityRequirement(name = SECURITY_NAME)
-    )
     @GetMapping(ENDPOINT_ACCOUNT_VERIFY_EMAIL)
     public String verifyEmail(@RequestParam("token") Optional<String> token) {
         String username = tokenFactory.verifyAccountValidationToken(token.orElseThrow(
@@ -128,11 +122,6 @@ public class AccountController {
     @ApiResponse(code = 200,
             message = MESSAGE_OK,
             response = User.class)
-    @Operation(
-            method = PUT,
-            description = ACCOUNT_UPDATE_USER,
-            security = @SecurityRequirement(name = SECURITY_NAME)
-    )
     @PreAuthorize("#user.username == authentication.name")
     public UserDto updateUser(@Valid @RequestBody UserDto user) throws BadRequestException {
         return userService.merge(user);
@@ -146,11 +135,6 @@ public class AccountController {
     @ApiResponse(code = 200,
             message = MESSAGE_OK,
             response = Map.class)
-    @Operation(
-            method = POST,
-            description = ACCOUNT_UPDATE_USER,
-            security = @SecurityRequirement(name = SECURITY_NAME)
-    )
     public Map<String, String> refreshToken(HttpServletRequest request, @RequestBody RefreshTokenDto token) {
         String subject = JWT.decode(token.getRefreshToken()).getSubject();
         Algorithm algorithm = Algorithm.HMAC512(signatureFactory.getSignature(subject));

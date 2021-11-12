@@ -1,4 +1,4 @@
-package com.thewheel.sawatu.core.exception;
+package com.thewheel.sawatu.shared.exception;
 
 import lombok.Getter;
 import lombok.Setter;

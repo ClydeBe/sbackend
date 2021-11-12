@@ -29,11 +29,6 @@ public class HaircutController {
     @ApiOperation(value = HAIRCUT_GET_ALL,
             notes = HAIRCUT_GET_ALL_NOTE,
             response = PageDto.class)
-    @Operation(
-            method = GET,
-            description = HAIRCUT_GET_ALL,
-            security = @SecurityRequirement(name = SECURITY_NAME)
-    )
     @ApiResponse(code = CODE_OK,
             message = MESSAGE_OK,
             response = PageDto.class)
@@ -50,11 +45,6 @@ public class HaircutController {
     @ApiOperation(value = HAIRCUT_GET,
             notes = HAIRCUT_GET_NOTE,
             response = HaircutDto.class)
-    @Operation(
-            method = GET,
-            description = HAIRCUT_GET,
-            security = @SecurityRequirement(name = SECURITY_NAME)
-    )
     @ApiResponse(code = CODE_OK,
             message = MESSAGE_OK,
             response = HaircutDto.class)

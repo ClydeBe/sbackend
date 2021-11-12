@@ -1,9 +1,8 @@
 package com.thewheel.sawatu.api.controller;
 
-import com.thewheel.sawatu.core.exception.BadRequestException;
+import com.thewheel.sawatu.shared.exception.BadRequestException;
 import com.thewheel.sawatu.core.service.interfaces.ProductService;
 import com.thewheel.sawatu.database.repository.ProductSearchRepository;
-import com.thewheel.sawatu.shared.constant.MessageConstants;
 import com.thewheel.sawatu.shared.dto.PageDto;
 import com.thewheel.sawatu.shared.dto.ProductDto;
 import io.swagger.annotations.ApiOperation;
@@ -36,11 +35,6 @@ public class ProductController {
     @ApiOperation(value = PRODUCT_GET_ALL,
             notes = PRODUCT_GET_ALL_NOTE,
             response = PageDto.class)
-    @Operation(
-            method = GET,
-            description = PRODUCT_GET_ALL,
-            security = @SecurityRequirement(name = SECURITY_NAME)
-    )
     @ApiResponse(code = CODE_OK,
             message = MESSAGE_OK,
             response = PageDto.class)
@@ -57,11 +51,6 @@ public class ProductController {
     @ApiOperation(value = PRODUCT_QUERY,
             notes = PRODUCT_QUERY_NOTE,
             response = ProductDto[].class)
-    @Operation(
-            method = GET,
-            description = PRODUCT_QUERY,
-            security = @SecurityRequirement(name = SECURITY_NAME)
-    )
     @ApiResponse(code = CODE_OK,
             message = MESSAGE_OK,
             response = ProductDto[].class)
@@ -98,11 +87,6 @@ public class ProductController {
     @ApiOperation(value = PRODUCT_GET,
             notes = PRODUCT_GET_NOTE,
             response = ProductDto.class)
-    @Operation(
-            method = GET,
-            description = PRODUCT_GET,
-            security = @SecurityRequirement(name = SECURITY_NAME)
-    )
     @ApiResponse(code = CODE_OK,
             message = MESSAGE_OK,
             response = ProductDto.class)
@@ -144,7 +128,7 @@ public class ProductController {
             message = MESSAGE_OK,
             response = ProductDto.class)
     @PreAuthorize("hasRole('VENDOR') && #productDto.vendorName == authentication.name")
-    @PutMapping(ENDPOINT_HAIRCUT_UPDATE)
+    @PutMapping(ENDPOINT_PRODUCT_UPDATE)
     public ProductDto update(@Valid @RequestBody ProductDto productDto) {
         return productService.save(productDto);
     }
@@ -160,7 +144,7 @@ public class ProductController {
     @ApiResponse(code = CODE_OK,
             message = MESSAGE_OK)
     @PreAuthorize("hasRole('VENDOR') && #productDto.vendorName == authentication.name")
-    @DeleteMapping(ENDPOINT_POST_DELETE)
+    @DeleteMapping(ENDPOINT_PRODUCT_DELETE)
     public void delete(@RequestBody ProductDto productDto) {
         productService.delete(productDto);
     }

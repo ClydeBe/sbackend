@@ -8,6 +8,7 @@ create table t_product
     image           varchar(255),
     label           varchar(255),
     price           real,
+    quantity        int4      not null,
     updated_at      timestamp,
     usage           varchar(255),
     vendor_id       varchar(255)
@@ -27,6 +28,7 @@ create table audit_product
     image           varchar(255),
     label           varchar(255),
     price           real,
+    quantity        int4,
     updated_at      timestamp,
     usage           varchar(255),
     vendor_id       varchar(255),

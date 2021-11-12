@@ -2,7 +2,7 @@ package com.thewheel.sawatu.api.controller;
 
 import com.thewheel.sawatu.auth.security.SignatureFactory;
 import com.thewheel.sawatu.auth.security.token.TokenFactory;
-import com.thewheel.sawatu.core.exception.BadRequestException;
+import com.thewheel.sawatu.shared.exception.BadRequestException;
 import com.thewheel.sawatu.core.mailing.EmailService;
 import com.thewheel.sawatu.core.service.interfaces.UserService;
 import com.thewheel.sawatu.database.model.User;
@@ -22,7 +22,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
@@ -113,6 +112,8 @@ public class AccountControllerTest {
                 .role(TestConstants.ROLE_USER)
                 .password(TestConstants.PASSWORD_1)
                 .build();
+        given(userService.fromDtoToUser(userDto, true)).willReturn(user);
+        given(mapper.fromEntity(user)).willReturn(userDto);
         given(tokenFactory.generateAccountActivationToken(TestConstants.USERNAME_1)).willReturn(
                 TestConstants.STRING_CONSTANT_1);
         doNothing().when(emailService).sendActivationMessage(userDto,
@@ -129,6 +130,11 @@ public class AccountControllerTest {
                 .isNotNull()
                 .isEqualTo(userDto);
 
+        verify(userService, times(1)).fromDtoToUser(userDto, true);
+        verify(userService, times(1)).fromDtoToUser(any(), any(Boolean.class));
+
+        verify(mapper, times(1)).fromEntity(user);
+        verify(mapper, times(1)).fromEntity(any(User.class));
 
         verify(userService, times(1)).create(userDto);
         verify(userService, times(1)).create(any());

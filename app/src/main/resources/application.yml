@@ -22,13 +22,14 @@ spring:
             audit_table_prefix: audit_
       hibernate:
         format_sql: true
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: ${OAUTH_GOOGLE_CLIENT_ID}
-            client-secret: ${OAUTH_GOOGLE_CLIENT_SECRET}
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          google:
+#            client-id: ${OAUTH_GOOGLE_CLIENT_ID}
+#            client-secret: ${OAUTH_GOOGLE_CLIENT_SECRET}
+
 
   data:
     rest:
@@ -56,6 +57,13 @@ server:
   port: ${SERVER_PORT}
   servlet:
     context-path: ${SERVLET_CONTEXT_PATH}
+#
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        boot:
+#          autoconfigure: DEBUG
 
 # CUSTOM SAWATU VARIABLES
 sawatu:

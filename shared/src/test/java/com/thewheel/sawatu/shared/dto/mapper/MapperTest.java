@@ -451,7 +451,7 @@ public class MapperTest {
                 .usage(TestConstants.STRING_CONSTANT_3)
                 .image(TestConstants.STRING_CONSTANT_4)
                 .price(TestConstants.PRICE_1)
-                .quantity(TestConstants.NUMERIC_CONSTANT_1)
+                .quantity((int) TestConstants.NUMERIC_CONSTANT_1)
                 .updatedAt(LocalDateTime.MAX)
                 .build();
         ProductDto dto = ProductDto.builder()
@@ -463,7 +463,7 @@ public class MapperTest {
                 .usage(TestConstants.STRING_CONSTANT_3)
                 .image(TestConstants.STRING_CONSTANT_4)
                 .price(TestConstants.PRICE_1)
-                .quantity(TestConstants.NUMERIC_CONSTANT_1)
+                .quantity((int) TestConstants.NUMERIC_CONSTANT_1)
                 .updatedAt(LocalDateTime.MAX)
                 .build();
 
@@ -1226,7 +1226,7 @@ public class MapperTest {
                 .id(1L)
                 .updatedAt(LocalDateTime.MAX)
                 .usage(TestConstants.STRING_CONSTANT_3)
-                .quantity(TestConstants.NUMERIC_CONSTANT_1)
+                .quantity((int) TestConstants.NUMERIC_CONSTANT_1)
                 .price(TestConstants.PRICE_1)
                 .label(TestConstants.LABEL_1)
                 .image(TestConstants.STRING_CONSTANT_4)
@@ -1241,7 +1241,7 @@ public class MapperTest {
                 .id(1L)
                 .updatedAt(LocalDateTime.MAX)
                 .usage(TestConstants.STRING_CONSTANT_3)
-                .quantity(TestConstants.NUMERIC_CONSTANT_1)
+                .quantity((int) TestConstants.NUMERIC_CONSTANT_1)
                 .price(TestConstants.PRICE_1)
                 .label(TestConstants.LABEL_1)
                 .image(TestConstants.STRING_CONSTANT_4)

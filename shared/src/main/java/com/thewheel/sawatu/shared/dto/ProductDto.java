@@ -28,7 +28,7 @@ public class ProductDto {
     private String label;
     private String image;
     private String usage;
-    private Long quantity;
+    private Integer quantity;
     @NotBlank
     private String description;
     private String characteristics;

@@ -1,6 +1,6 @@
 package com.thewheel.sawatu.core.service.implementations;
 
-import com.thewheel.sawatu.core.exception.BadRequestException;
+import com.thewheel.sawatu.shared.exception.BadRequestException;
 import com.thewheel.sawatu.core.service.interfaces.RoleService;
 import com.thewheel.sawatu.core.service.interfaces.UserService;
 import com.thewheel.sawatu.database.model.Role;
@@ -69,8 +69,8 @@ public class UserServiceImpl implements UserService {
         Page<User> list = userRepository.findAll(pageable);
         return PageDto.<UserDto> builder()
                 .items(list.stream()
-                                  .map(mapper::fromEntity)
-                                  .collect(Collectors.toList()))
+                               .map(mapper::fromEntity)
+                               .collect(Collectors.toList()))
                 .pages(list.getTotalPages())
                 .build();
     }
@@ -80,6 +80,7 @@ public class UserServiceImpl implements UserService {
         User user = mapper.toEntity(userDto);
         if (isNewUser && userDto.getPassword() != null) {
             user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+            user.setRole(Role.USER);
             user.setIsActive(false);
         } else throw new BadRequestException(MessageConstants.NO_PASSWORD_FOUND);
         return user;
