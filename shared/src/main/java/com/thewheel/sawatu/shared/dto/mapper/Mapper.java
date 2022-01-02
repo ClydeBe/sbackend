@@ -1,16 +1,22 @@
 package com.thewheel.sawatu.shared.dto.mapper;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thewheel.sawatu.database.model.*;
 import com.thewheel.sawatu.database.repository.PostRepository;
 import com.thewheel.sawatu.database.repository.UserRepository;
-import com.thewheel.sawatu.shared.constant.MessageConstants;
+import com.thewheel.sawatu.basic.constant.MessageConstants;
 import com.thewheel.sawatu.shared.dto.*;
 import com.thewheel.sawatu.shared.dto.user.UserDto;
+import com.thewheel.sawatu.shared.exception.BadRequestException;
+import com.thewheel.sawatu.shared.exception.ServerException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
-import java.time.Duration;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
@@ -20,6 +26,8 @@ public class Mapper {
     private final UserRepository userRepository;
 
     private final PostRepository postRepository;
+
+    private final ObjectMapper objectMapper;
 
     public AppointmentDto fromEntity(Appointment appointment) {
         if (appointment == null) return null;
@@ -55,9 +63,9 @@ public class Mapper {
         if (availability == null) return null;
         return AvailabilityDto.builder()
                 .id(availability.getId())
-                .availabilities(availability.getAvailabilities())
                 .updatedAt(availability.getUpdatedAt())
                 .user(fromEntity(availability.getUser()))
+                .availabilities(stringAsPeriods(availability.getAvailabilities()))
                 .build();
     }
 
@@ -65,7 +73,11 @@ public class Mapper {
         if (availabilityDto == null) return null;
         return Availability.builder()
                 .id(availabilityDto.getId())
-                .availabilities(availabilityDto.getAvailabilities())
+                .availabilities(listAsString(
+                        availabilityDto.getAvailabilities()
+                                .stream()
+                                .filter(dto -> dto.getDay().isAfter(LocalDate.now()))
+                                .collect(Collectors.toList())))
                 .updatedAt(availabilityDto.getUpdatedAt())
                 .user(loadUser(availabilityDto.getUserName()))
                 .build();
@@ -107,7 +119,7 @@ public class Mapper {
         if (haircut == null) return null;
         return HaircutDto.builder()
                 .id(haircut.getId())
-                .duration(haircut.getDuration().toMinutes())
+//                .duration(haircut.getDuration().toMinutes())
                 .label(haircut.getLabel())
                 .photo(haircut.getPhoto())
                 .price(haircut.getPrice())
@@ -121,7 +133,7 @@ public class Mapper {
         if (haircutDto == null) return null;
         return Haircut.builder()
                 .id(haircutDto.getId())
-                .duration(Duration.ofMinutes(haircutDto.getDuration()))
+//                .duration(Duration.ofMinutes(haircutDto.getDuration()))
                 .label(haircutDto.getLabel())
                 .photo(haircutDto.getPhoto())
                 .price(haircutDto.getPrice())
@@ -223,7 +235,7 @@ public class Mapper {
         if (productOrder == null) return null;
         return ProductOrderDto.builder()
                 .id(productOrder.getId())
-                .items(productOrder.getItems())
+                .items(stringAsMap(productOrder.getItems()))
                 .updatedAt(productOrder.getUpdatedAt())
                 .user(fromEntity(productOrder.getUser()))
                 .build();
@@ -233,7 +245,7 @@ public class Mapper {
         if (productOrderDto == null) return null;
         return ProductOrder.builder()
                 .id(productOrderDto.getId())
-                .items(productOrderDto.getItems())
+                .items(mapAsString(productOrderDto.getItems()))
                 .updatedAt(productOrderDto.getUpdatedAt())
                 .user(loadUser(productOrderDto.getUserName()))
                 .build();
@@ -263,27 +275,27 @@ public class Mapper {
                 .build();
     }
 
-    public StatisticsDto fromEntity(Statistics statistics) {
-        if (statistics == null) return null;
+    public StatisticsDto fromEntity(Statistic statistic) {
+        if (statistic == null) return null;
         return StatisticsDto.builder()
-                .id(statistics.getId())
-                .followersCount(statistics.getFollowersCount())
-                .haircutCount(statistics.getHaircutCount())
-                .updatedAt(statistics.getUpdatedAt())
-                .rate(statistics.getRate())
-                .user(fromEntity(statistics.getUser()))
+                .id(statistic.getId())
+//                .followersCount(statistic.getFollowersCount())
+//                .haircutCount(statistic.getHaircutCount())
+                .updatedAt(statistic.getUpdatedAt())
+//                .rate(statistic.getRate())
+//                .user(fromEntity(statistic.getUser()))
                 .build();
     }
 
-    public Statistics toEntity(StatisticsDto statisticsDto) {
+    public Statistic toEntity(StatisticsDto statisticsDto) {
         if (statisticsDto == null) return null;
-        return Statistics.builder()
+        return Statistic.builder()
                 .id(statisticsDto.getId())
-                .followersCount(statisticsDto.getFollowersCount())
-                .haircutCount(statisticsDto.getHaircutCount())
+//                .followersCount(statisticsDto.getFollowersCount())
+//                .haircutCount(statisticsDto.getHaircutCount())
                 .updatedAt(statisticsDto.getUpdatedAt())
-                .rate(statisticsDto.getRate())
-                .user(loadUser(statisticsDto.getUserName()))
+//                .rate(statisticsDto.getRate())
+//                .user(loadUser(statisticsDto.getUserName()))
                 .build();
     }
 
@@ -318,6 +330,38 @@ public class Mapper {
                 .updatedAt(userDto.getUpdatedAt())
                 .password(userDto.getPassword())
                 .build();
+    }
+
+    private String listAsString(List<PeriodDto> list) {
+        try {
+            return objectMapper.writeValueAsString(list);
+        } catch (JsonProcessingException e) {
+            throw new BadRequestException("Unable to parse periods");
+        }
+    }
+
+    private List<PeriodDto> stringAsPeriods(String period) {
+        try {
+            return objectMapper.readValue(period, List.class);
+        } catch (JsonProcessingException e) {
+            throw new ServerException("Unable to parse data");
+        }
+    }
+
+    private String mapAsString(Map<ProductDto, Integer> map) {
+        try {
+            return objectMapper.writeValueAsString(map);
+        } catch (JsonProcessingException e) {
+            throw new BadRequestException("Unable to parse products");
+        }
+    }
+
+    private Map<ProductDto, Integer> stringAsMap(String entity) {
+        try {
+            return objectMapper.readValue(entity, Map.class);
+        } catch (JsonProcessingException e) {
+            throw new ServerException("Unable to serialize products");
+        }
     }
 
     private User loadUser(String username) {

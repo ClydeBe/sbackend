@@ -1,13 +1,15 @@
 package com.thewheel.sawatu.shared.dto.mapper;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thewheel.sawatu.database.model.*;
 import com.thewheel.sawatu.database.repository.PostRepository;
 import com.thewheel.sawatu.database.repository.UserRepository;
-import com.thewheel.sawatu.shared.constant.MessageConstants;
-import com.thewheel.sawatu.shared.constant.TestConstants;
+import com.thewheel.sawatu.basic.constant.MessageConstants;
+import com.thewheel.sawatu.basic.constant.TestConstants;
 import com.thewheel.sawatu.shared.dto.*;
 import com.thewheel.sawatu.shared.dto.user.UserDto;
+import lombok.SneakyThrows;
 import org.assertj.core.api.AbstractThrowableAssert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,10 +18,9 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.persistence.EntityNotFoundException;
-import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -40,6 +41,9 @@ public class MapperTest {
 
     @Mock
     private PostRepository postRepository;
+
+    @Mock
+    private ObjectMapper objectMapper;
 
     @Test
     public void fromEntity_AppointmentShouldReturnNull_ifParamIsNull() {
@@ -152,10 +156,10 @@ public class MapperTest {
     @Test
     public void fromEntity_StatisticsShouldReturnNull_ifParamIsNull() {
         // Given
-        Statistics statistics = null;
+        Statistic statistic = null;
 
         // When
-        StatisticsDto dto = mapper.fromEntity(statistics);
+        StatisticsDto dto = mapper.fromEntity(statistic);
 
         //Then
         assertThat(dto).isNull();
@@ -214,6 +218,7 @@ public class MapperTest {
                 .isEqualTo(dto);
     }
 
+    @SneakyThrows
     @Test
     public void fromEntity_AvailabilityShouldReturnCorrectMapping() {
         // Given
@@ -230,13 +235,18 @@ public class MapperTest {
                 .email(TestConstants.EMAIL_1)
                 .role(TestConstants.ROLE_USER)
                 .build();
+        PeriodDto period = PeriodDto.builder()
+                .periods(Arrays.asList(16))
+                .day(LocalDate.MAX)
+                .build();
+        given(objectMapper.readValue(TestConstants.AVAILABILITY_1, List.class)).willReturn(Arrays.asList(period));
         Availability availability = Availability.builder()
                 .user(user)
                 .availabilities(TestConstants.AVAILABILITY_1)
                 .build();
         AvailabilityDto dto = AvailabilityDto.builder()
                 .user(userDto)
-                .availabilities(TestConstants.AVAILABILITY_1)
+                .availabilities(Arrays.asList(period))
                 .build();
 
         // When
@@ -315,7 +325,7 @@ public class MapperTest {
                 .id(1L)
                 .vendor(user)
                 .photo(TestConstants.PHOTO_1)
-                .duration(Duration.ofMinutes(TestConstants.DURATION_1))
+                .duration((short) TestConstants.DURATION_1)
                 .label(TestConstants.LABEL_1)
                 .price(TestConstants.PRICE_1)
                 .vatRatio(TestConstants.VAT_RATIO_1)
@@ -476,6 +486,7 @@ public class MapperTest {
                 .isEqualTo(dto);
     }
 
+    @SneakyThrows
     @Test
     public void fromEntity_ProductOrderShouldReturnCorrectMapping() {
         // Given
@@ -498,12 +509,23 @@ public class MapperTest {
                 .items(TestConstants.STRING_CONSTANT_2)
                 .updatedAt(LocalDateTime.MAX)
                 .build();
+        ProductDto p1 = ProductDto.builder()
+                .id(TestConstants.ID_1)
+                .build();
+        ProductDto p2 = ProductDto.builder()
+                .id(TestConstants.ID_2)
+                .build();
+        Map<ProductDto, Integer> items = new HashMap<>(){{
+            put(p1, (int) TestConstants.NUMERIC_CONSTANT_1);
+            put(p2, (int) TestConstants.NUMERIC_CONSTANT_2);
+        }};
         ProductOrderDto dto = ProductOrderDto.builder()
                 .id(1L)
                 .user(userDto)
-                .items(TestConstants.STRING_CONSTANT_2)
+                .items(items)
                 .updatedAt(LocalDateTime.MAX)
                 .build();
+        given(objectMapper.readValue(TestConstants.STRING_CONSTANT_2, Map.class)).willReturn(items);
 
         // When
         ProductOrderDto response = mapper.fromEntity(productOrder);
@@ -583,12 +605,12 @@ public class MapperTest {
                 .email(TestConstants.EMAIL_1)
                 .role(TestConstants.ROLE_USER)
                 .build();
-        Statistics statistics = Statistics.builder()
+        Statistic statistic = Statistic.builder()
                 .id(1L)
-                .rate((int) TestConstants.NUMERIC_CONSTANT_1)
-                .user(user)
-                .followersCount((int) TestConstants.NUMERIC_CONSTANT_2)
-                .haircutCount((int) TestConstants.NUMERIC_CONSTANT_1)
+//                .rate((int) TestConstants.NUMERIC_CONSTANT_1)
+//                .user(user)
+//                .followersCount((int) TestConstants.NUMERIC_CONSTANT_2)
+//                .haircutCount((int) TestConstants.NUMERIC_CONSTANT_1)
                 .build();
         StatisticsDto dto = StatisticsDto.builder()
                 .id(1L)
@@ -600,7 +622,7 @@ public class MapperTest {
 
 
         // When
-        StatisticsDto response = mapper.fromEntity(statistics);
+        StatisticsDto response = mapper.fromEntity(statistic);
 
         //Then
         assertThat(response)
@@ -710,7 +732,7 @@ public class MapperTest {
         StatisticsDto dto = null;
 
         // When
-        Statistics entity = mapper.toEntity(dto);
+        Statistic entity = mapper.toEntity(dto);
 
         // Then
         assertThat(entity).isNull();
@@ -950,6 +972,7 @@ public class MapperTest {
         verify(userRepository, times(2)).findByUsernameOrEmail(any());
     }
 
+    @SneakyThrows
     @Test
     public void toEntity_AvailabilityShouldReturnCorrectEntity() {
         // Given
@@ -960,16 +983,20 @@ public class MapperTest {
                 .email(TestConstants.EMAIL_1)
                 .role(TestConstants.ROLE_USER)
                 .build();
+        PeriodDto period = PeriodDto.builder()
+                .periods(Arrays.asList(16))
+                .day(LocalDate.MAX)
+                .build();
         AvailabilityDto dto = AvailabilityDto.builder()
                 .id(1L)
                 .userName(TestConstants.USERNAME_1)
-                .availabilities(TestConstants.AVAILABILITY_1)
+                .availabilities(Arrays.asList(period))
                 .updatedAt(LocalDateTime.MAX)
                 .build();
 
         given(userRepository.findByUsernameOrEmail(TestConstants.USERNAME_1)).willReturn(Optional.<User> of(user));
-
-        Availability expected = Availability.builder()
+        given(objectMapper.writeValueAsString(Arrays.asList(period))).willReturn(TestConstants.AVAILABILITY_1);
+        Availability expected = expected = Availability.builder()
                 .id(1L)
                 .user(user)
                 .availabilities(TestConstants.AVAILABILITY_1)
@@ -1108,7 +1135,7 @@ public class MapperTest {
                 .photo(TestConstants.STRING_CONSTANT_1)
                 .label(TestConstants.STRING_CONSTANT_2)
                 .price(TestConstants.PRICE_1)
-                .duration(Duration.ofMinutes(TestConstants.DURATION_1))
+                .duration((short) TestConstants.DURATION_1)
                 .build();
 
         // When
@@ -1263,6 +1290,7 @@ public class MapperTest {
         verify(userRepository, times(1)).findByUsernameOrEmail(any());
     }
 
+    @SneakyThrows
     @Test
     public void toEntity_ProductOrderShouldReturnCorrectEntity() {
         // Given
@@ -1273,11 +1301,21 @@ public class MapperTest {
                 .email(TestConstants.EMAIL_1)
                 .role(TestConstants.ROLE_USER)
                 .build();
+        ProductDto p1 = ProductDto.builder()
+                .id(TestConstants.ID_1)
+                .build();
+        ProductDto p2 = ProductDto.builder()
+                .id(TestConstants.ID_2)
+                .build();
+        Map<ProductDto, Integer> items = new HashMap<>(){{
+            put(p1, (int) TestConstants.NUMERIC_CONSTANT_1);
+            put(p2, (int) TestConstants.NUMERIC_CONSTANT_2);
+        }};
         ProductOrderDto dto = ProductOrderDto.builder()
                 .id(1L)
                 .updatedAt(LocalDateTime.MAX)
                 .userName(TestConstants.USERNAME_1)
-                .items(TestConstants.STRING_CONSTANT_1)
+                .items(items)
                 .build();
 
         given(userRepository.findByUsernameOrEmail(TestConstants.USERNAME_1)).willReturn(Optional.<User> of(user));
@@ -1288,6 +1326,7 @@ public class MapperTest {
                 .user(user)
                 .items(TestConstants.STRING_CONSTANT_1)
                 .build();
+        given(objectMapper.writeValueAsString(items)).willReturn(TestConstants.STRING_CONSTANT_1);
 
         // When
         ProductOrder response = mapper.toEntity(dto);
@@ -1375,17 +1414,17 @@ public class MapperTest {
 
         given(userRepository.findByUsernameOrEmail(TestConstants.USERNAME_1)).willReturn(Optional.<User> of(user));
 
-        Statistics expected = Statistics.builder()
+        Statistic expected = Statistic.builder()
                 .id(1L)
                 .updatedAt(LocalDateTime.MAX)
-                .user(user)
-                .rate((int) TestConstants.NUMERIC_CONSTANT_1)
-                .haircutCount((int) TestConstants.NUMERIC_CONSTANT_1)
-                .followersCount((int) TestConstants.NUMERIC_CONSTANT_2)
+//                .user(user)
+//                .rate((int) TestConstants.NUMERIC_CONSTANT_1)
+//                .haircutCount((int) TestConstants.NUMERIC_CONSTANT_1)
+//                .followersCount((int) TestConstants.NUMERIC_CONSTANT_2)
                 .build();
 
         // When
-        Statistics response = mapper.toEntity(dto);
+        Statistic response = mapper.toEntity(dto);
 
         // Then
 

@@ -3,12 +3,14 @@ package com.thewheel.sawatu.shared.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.thewheel.sawatu.shared.dto.user.UserDto;
+import com.thewheel.sawatu.shared.dto.validator.annotations.DateTimeValid;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
@@ -21,9 +23,12 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 public class AppointmentDto {
 
     private Long id;
+    @DateTimeValid
     private LocalDateTime dateTime;
 
+    @NotNull
     private HaircutDto haircut;
+    @NotNull
     private HaircutOrderDto haircutOrder;
 
     @NotBlank

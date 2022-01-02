@@ -9,7 +9,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
@@ -20,8 +23,8 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 public class ProductOrderDto {
 
     private Long id;
-    @NotBlank
-    private String items;
+    @NotNull @NotEmpty
+    private Map<ProductDto, Integer> items;
     @NotBlank
     @JsonInclude(NON_NULL)
     @JsonProperty("userUsername")

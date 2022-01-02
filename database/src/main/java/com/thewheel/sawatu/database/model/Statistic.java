@@ -18,7 +18,6 @@ import static javax.persistence.FetchType.EAGER;
                 @Index(name = "user_statistics__idx", columnList = "user_id")
         }
 )
-@EqualsAndHashCode(callSuper = false)
 public class Statistics {
 
     @Id

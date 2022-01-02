@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
@@ -21,14 +22,14 @@ public class HaircutDto {
 
 
     private Long id;
-    @NotBlank
+    @Positive
     private Float price;
     @NotBlank
     private String label;
     // Duration in minutes
-    @NotBlank
+    @Positive
     private Long duration;
-    @NotBlank
+    @Positive
     private Float vatRatio;
     @NotBlank
     private String photo;

@@ -1,8 +1,10 @@
 package com.thewheel.sawatu.shared.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.thewheel.sawatu.database.model.User;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -25,11 +27,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Slf4j
 public class GeneralConfiguration {
 
-    @Value("${spring.datasource.hikari.schema}")
-    private String schema;
-
-    private String dictionaryLanguage = "french";
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -38,6 +35,13 @@ public class GeneralConfiguration {
     @Bean
     public AuditorAware<User> auditorAware() {
         return new AppAuditAware();
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        objectMapper.setDateFormat(new StdDateFormat().withColonInTimeZone(true));
+        return objectMapper;
     }
 
 }
