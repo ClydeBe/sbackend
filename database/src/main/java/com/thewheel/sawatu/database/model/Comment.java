@@ -20,16 +20,13 @@ import static javax.persistence.FetchType.LAZY;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "t_comment",
-    indexes = {
-        @Index(name = "post__idx", columnList = "post_id ASC"),
-    }
-)
+@Table(name = "comment")
 @EntityListeners(AuditingEntityListener.class)
 public class Comment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_generator")
+    @SequenceGenerator(name = "comment_generator", sequenceName = "s_comment", allocationSize = 1)
     private Long id;
 
     @Column(name = "body", columnDefinition = "text")
@@ -47,16 +44,16 @@ public class Comment {
     @CreatedBy
     @ManyToOne(fetch = EAGER)
     @JsonBackReference
-    @JoinColumn(name = "author_id", foreignKey = @ForeignKey(name = "comment_user__fk"))
+    @JoinColumn(name = "author_id")
     private User author;
 
     @ManyToOne(fetch = LAZY)
     @JsonBackReference
-    @JoinColumn(name = "post_id", foreignKey = @ForeignKey(name = "comment_post__fk"))
+    @JoinColumn(name = "post_id")
     private Post post;
 
     @OneToMany(fetch = EAGER)
-    @JoinColumn(name = "reply_id", foreignKey = @ForeignKey(name = "comment_reply__fk"))
+    @JoinColumn(name = "reply_id")
     private List<Comment> comments;
 
     @Column(name = "updated_at")

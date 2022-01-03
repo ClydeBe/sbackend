@@ -19,18 +19,15 @@ import static javax.persistence.FetchType.EAGER;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "t_avaibility",
-    indexes = {
-        @Index(name = "user_availability__idx", columnList = "user_id")
-    }
-)
+@Table(name = "availability")
 @EntityListeners(AuditingEntityListener.class)
 @Audited
-@AuditTable(value = "audit_availability")
+@AuditTable(value = "audit_availability", schema = "audit")
 public class Availability {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "availability_generator")
+    @SequenceGenerator(name = "availability_generator", sequenceName = "s_availability", allocationSize = 1)
     private Long id;
 
     @Column(name = "availabilities", columnDefinition = "text")
@@ -41,7 +38,7 @@ public class Availability {
 
     @CreatedBy
     @ManyToOne(fetch = EAGER)
-    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "availability_user__fk"))
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Column(name = "updated_at")

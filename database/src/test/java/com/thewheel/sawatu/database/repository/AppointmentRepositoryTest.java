@@ -1,7 +1,7 @@
 package com.thewheel.sawatu.database.repository;
 
+import com.thewheel.sawatu.constants.TestConstants;
 import com.thewheel.sawatu.database.model.Appointment;
-import com.thewheel.sawatu.database.model.Role;
 import com.thewheel.sawatu.database.model.User;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +35,7 @@ class AppointmentRepositoryTest {
                 .username("be")
                 .email("be@be.be")
                 .password("#psdr")
-                .role(Role.ADMIN)
+                .role(TestConstants.ROLE_ADMIN)
                 .isActive(true)
                 .build();
         user = userRepository.saveAndFlush(user);
@@ -75,7 +75,7 @@ class AppointmentRepositoryTest {
                 .username("be")
                 .email("be@be.be")
                 .password("#psdr")
-                .role(Role.ADMIN)
+                .role(TestConstants.ROLE_ADMIN)
                 .isActive(true)
                 .build();
         user = userRepository.saveAndFlush(user);

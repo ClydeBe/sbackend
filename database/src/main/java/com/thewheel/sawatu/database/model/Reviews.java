@@ -15,17 +15,13 @@ import static javax.persistence.FetchType.LAZY;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "t_reviews",
-    indexes = {
-        @Index(name = "self_review__idx", columnList = "self")
-    }
-)
-@EqualsAndHashCode(callSuper = false)
+@Table(name = "reviews")
 @EntityListeners(AuditingEntityListener.class)
 public class Reviews {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reviews_generator")
+    @SequenceGenerator(name = "reviews_generator", sequenceName = "s_reviews", allocationSize = 1)
     private Long id;
 
     @Column(name = "rating", nullable = false)
@@ -42,11 +38,11 @@ public class Reviews {
 
     @CreatedBy
     @ManyToOne(fetch = EAGER)
-    @JoinColumn(name = "reviewer", foreignKey = @ForeignKey(name = "review_reviewer__fk"))
+    @JoinColumn(name = "reviewer")
     private User reviewer;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "self", foreignKey = @ForeignKey(name = "review_user__fk"))
+    @JoinColumn(name = "self")
     private User self;
 
     @Column(name = "updated_at")

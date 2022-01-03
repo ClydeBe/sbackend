@@ -1,9 +1,10 @@
-package com.thewheel.sawatu.shared.constant;
+package com.thewheel.sawatu.constants;
 
 public class MessageConstants {
 
     public static final String ENTITY_NOT_FOUND = "No %s found with id '%s'";
-    public static final String USER_NOT_FOUND = "No user found with username '%s'";
+    public static final String AVAILABILITY_NOT_FOUND = "No availability found for user[username='%s']";
+    public static final String USER_NOT_FOUND = "No user found with username or email '%s'";
 
     public static final String APPOINTMENT = "APPOINTMENT";
     public static final String AVAILABILITY = "AVAILABILITY";
@@ -16,7 +17,7 @@ public class MessageConstants {
     public static final String REVIEWS = "REVIEWS";
     public static final String STATISTICS = "STATISTICS";
 
-    public static final String STATISTICS_ARE_NOT_YET_COMPUTED = "Statistics for User[username=%s] are not yet " +
+    public static final String STATISTICS_ARE_NOT_YET_COMPUTED = "Statistic for User[username=%s] are not yet " +
                                                                  "computed";
 
     public static final String NO_PASSWORD_FOUND = "No password found. Must provide password";
@@ -24,6 +25,8 @@ public class MessageConstants {
     public static final String INVALID_TOKEN = "Unable to parse token";
     public static final String NO_TOKEN_PROVIDED = "No token provided";
     public static final String ACCOUNT_ACTIVATED = "Account activated";
+    public static final String AVAILABILITY_EXISTS = "User availability already exist. Consider updating or deleting " +
+                                                     "the existing one";
     public static final String PRODUCT_QUERY_EXCEPTION = "Either query or both min and max must be provide";
 
 

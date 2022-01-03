@@ -3,7 +3,7 @@ package com.thewheel.sawatu.core.service.implementations;
 import com.thewheel.sawatu.core.service.interfaces.ProductOrderService;
 import com.thewheel.sawatu.database.model.ProductOrder;
 import com.thewheel.sawatu.database.repository.ProductOrderRepository;
-import com.thewheel.sawatu.shared.constant.MessageConstants;
+import com.thewheel.sawatu.constants.MessageConstants;
 import com.thewheel.sawatu.shared.dto.PageDto;
 import com.thewheel.sawatu.shared.dto.ProductOrderDto;
 import com.thewheel.sawatu.shared.dto.mapper.Mapper;

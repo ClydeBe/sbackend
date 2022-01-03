@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Optional;
 
-import static com.thewheel.sawatu.shared.constant.ApiDocumentationConstants.*;
-import static com.thewheel.sawatu.shared.constant.ApiEndpointsConstants.*;
-import static com.thewheel.sawatu.shared.constant.SecurityConstants.SECURITY_NAME;
+import static com.thewheel.sawatu.constants.ApiDocumentationConstants.*;
+import static com.thewheel.sawatu.constants.ApiEndpointsConstants.*;
+import static com.thewheel.sawatu.constants.SecurityConstants.SECURITY_NAME;
 
 @RestController
 @RequiredArgsConstructor
@@ -62,7 +62,7 @@ public class AppointmentController {
     @ApiResponse(code = CODE_OK,
             message = MESSAGE_OK,
             response = AppointmentDto.class)
-    @PostAuthorize("returnObject.get().clientName == authentication.name")
+    @PostAuthorize("returnObject.clientName == authentication.name")
     @GetMapping(ENDPOINT_APPOINTMENT_GET)
     public AppointmentDto get(@PathVariable("id") Long id) {
         return appointmentService.get(id);
@@ -81,7 +81,7 @@ public class AppointmentController {
     @ApiResponse(code = CODE_CREATED,
             message = MESSAGE_CREATED,
             response = AppointmentDto.class)
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_UretSER')")
     @PostMapping(ENDPOINT_APPOINTMENT_CREATE)
     public AppointmentDto create(@Valid @RequestBody AppointmentDto appointmentDto) {
         return appointmentService.save(appointmentDto);

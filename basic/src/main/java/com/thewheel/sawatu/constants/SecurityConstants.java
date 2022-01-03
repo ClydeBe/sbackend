@@ -1,4 +1,4 @@
-package com.thewheel.sawatu.shared.constant;
+package com.thewheel.sawatu.constants;
 
 public class SecurityConstants {
 

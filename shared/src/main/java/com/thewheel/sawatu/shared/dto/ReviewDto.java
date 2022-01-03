@@ -23,7 +23,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 public class ReviewDto {
 
     private Long id;
-    @NotBlank @Min(0) @Max(5)
+    @NotNull @Min(0) @Max(5)
     private Integer rating;
     @NotBlank
     private String comment;

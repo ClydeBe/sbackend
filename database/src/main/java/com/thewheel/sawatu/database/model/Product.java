@@ -16,19 +16,15 @@ import static javax.persistence.FetchType.EAGER;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-@Table(name = "t_product",
-    indexes = {
-        @Index(name = "product_price__idx", columnList = "price")
-    }
-)
-@EqualsAndHashCode(callSuper = false)
+@Table(name = "product")
 @EntityListeners(AuditingEntityListener.class)
 @Audited
-@AuditTable(value = "audit_product")
+@AuditTable(value = "audit_product", schema = "audit")
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_generator")
+    @SequenceGenerator(name = "product_generator", sequenceName = "s_product", allocationSize = 1)
     private Long id;
 
     @Column(name = "label")

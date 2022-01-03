@@ -1,4 +1,4 @@
-package com.thewheel.sawatu.database.model;
+package com.thewheel.sawatu;
 
 public enum Role {
     ADMIN,

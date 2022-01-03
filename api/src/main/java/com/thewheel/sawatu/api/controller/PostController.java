@@ -9,16 +9,15 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-import static com.thewheel.sawatu.shared.constant.ApiDocumentationConstants.*;
-import static com.thewheel.sawatu.shared.constant.ApiEndpointsConstants.*;
-import static com.thewheel.sawatu.shared.constant.SecurityConstants.SECURITY_NAME;
+import static com.thewheel.sawatu.constants.ApiDocumentationConstants.*;
+import static com.thewheel.sawatu.constants.ApiEndpointsConstants.*;
+import static com.thewheel.sawatu.constants.SecurityConstants.SECURITY_NAME;
 
 @RestController
 @RequiredArgsConstructor
@@ -63,7 +62,6 @@ public class PostController {
     @ApiResponse(code = CODE_OK,
             message = MESSAGE_OK,
             response = PostDto.class)
-    @PostAuthorize("returnObject.get().authorName == authentication.name")
     @GetMapping(ENDPOINT_POST_GET)
     public PostDto get(@PathVariable("id") Long id) {
         return postService.get(id);

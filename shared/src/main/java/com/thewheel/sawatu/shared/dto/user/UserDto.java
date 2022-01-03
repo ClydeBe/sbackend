@@ -2,7 +2,7 @@ package com.thewheel.sawatu.shared.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.thewheel.sawatu.database.model.Address;
-import com.thewheel.sawatu.database.model.Role;
+import com.thewheel.sawatu.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

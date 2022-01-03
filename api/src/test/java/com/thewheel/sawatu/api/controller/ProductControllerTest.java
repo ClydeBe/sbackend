@@ -2,7 +2,7 @@ package com.thewheel.sawatu.api.controller;
 
 import com.thewheel.sawatu.shared.exception.BadRequestException;
 import com.thewheel.sawatu.core.service.interfaces.ProductService;
-import com.thewheel.sawatu.shared.constant.TestConstants;
+import com.thewheel.sawatu.constants.TestConstants;
 import com.thewheel.sawatu.shared.dto.PageDto;
 import com.thewheel.sawatu.shared.dto.ProductDto;
 import org.assertj.core.api.AbstractThrowableAssert;
@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static com.thewheel.sawatu.shared.constant.MessageConstants.PRODUCT_QUERY_EXCEPTION;
+import static com.thewheel.sawatu.constants.MessageConstants.PRODUCT_QUERY_EXCEPTION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;

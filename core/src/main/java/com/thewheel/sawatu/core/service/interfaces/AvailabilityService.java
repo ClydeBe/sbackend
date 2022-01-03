@@ -4,11 +4,9 @@ import com.thewheel.sawatu.shared.dto.AvailabilityDto;
 import com.thewheel.sawatu.shared.dto.PageDto;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Optional;
-
 public interface AvailabilityService {
-    PageDto<AvailabilityDto> list(Pageable page, String username);
-    AvailabilityDto get(Long id);
-    AvailabilityDto save(AvailabilityDto AvailabilityDto);
+    PageDto<AvailabilityDto> list(Pageable page);
+    AvailabilityDto get(String username);
+    AvailabilityDto save(AvailabilityDto AvailabilityDto, boolean create);
     void delete(AvailabilityDto AvailabilityDto);
 }

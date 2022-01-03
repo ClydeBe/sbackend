@@ -1,4 +1,4 @@
-package com.thewheel.sawatu.shared.constant;
+package com.thewheel.sawatu.constants;
 
 public class ApiEndpointsConstants {
 
@@ -17,11 +17,11 @@ public class ApiEndpointsConstants {
     public static final String ENDPOINT_APPOINTMENT_DELETE = "/appointment";
 
     // Availability
-    public static final String ENDPOINT_AVAILABILITY_GET_ALL = "/availabilities/{username}";
-    public static final String ENDPOINT_AVAILABILITY_GET = "/availability/{id}";
-    public static final String ENDPOINT_AVAILABILITY_CREATE = "/availability";
-    public static final String ENDPOINT_AVAILABILITY_UPDATE = "/availability";
-    public static final String ENDPOINT_AVAILABILITY_DELETE = "/availability";
+    public static final String ENDPOINT_AVAILABILITY_GET_ALL = "/availabilities";
+    public static final String ENDPOINT_AVAILABILITY_GET = "/availability/user/{username}";
+    public static final String ENDPOINT_AVAILABILITY_CREATE = "/availability/user/{username}";
+    public static final String ENDPOINT_AVAILABILITY_UPDATE = "/availability/user/{username}";
+    public static final String ENDPOINT_AVAILABILITY_DELETE = "/availability/user/{username}";
 
     // Comment
     public static final String ENDPOINT_COMMENT_GET_ALL = "/post/{postId}/comments";
@@ -78,7 +78,7 @@ public class ApiEndpointsConstants {
     // Role
     public static final String ENDPOINT_ROLE_GET_ALL = "/roles";
 
-    // Statistics
+    // Statistic
     public static final String ENDPOINT_STATISTICS_GET = "/statistic/{username}";
 
 

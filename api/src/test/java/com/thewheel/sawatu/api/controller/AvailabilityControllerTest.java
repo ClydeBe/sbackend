@@ -1,7 +1,7 @@
 package com.thewheel.sawatu.api.controller;
 
 import com.thewheel.sawatu.core.service.interfaces.AvailabilityService;
-import com.thewheel.sawatu.shared.constant.TestConstants;
+import com.thewheel.sawatu.constants.TestConstants;
 import com.thewheel.sawatu.shared.dto.AvailabilityDto;
 import com.thewheel.sawatu.shared.dto.PageDto;
 import org.junit.Test;
@@ -43,17 +43,17 @@ public class AvailabilityControllerTest {
                 .pages(1)
                 .build();
         Pageable PAGEABLE = PageRequest.of(0, 10);
-        given(service.list(PAGEABLE, TestConstants.USERNAME_1)).willReturn(expected);
+        given(service.list(PAGEABLE)).willReturn(expected);
 
         // When
-        PageDto<AvailabilityDto> response = controller.getAll(TestConstants.USERNAME_1, Optional.of(0), Optional.of(10));
+        PageDto<AvailabilityDto> response = controller.getAll(Optional.of(0), Optional.of(10));
 
         // Then
         assertThat(response)
                 .isNotNull()
                 .isEqualTo(expected);
-        verify(service, times(1)).list(PAGEABLE, TestConstants.USERNAME_1);
-        verify(service, times(1)).list(any(), any());
+        verify(service, times(1)).list(PAGEABLE);
+        verify(service, times(1)).list(any());
 
     }
 
@@ -63,16 +63,16 @@ public class AvailabilityControllerTest {
         AvailabilityDto expected = AvailabilityDto.builder()
                 .id(TestConstants.ID_1)
                 .build();
-        given(service.get(TestConstants.ID_1)).willReturn(expected);
+        given(service.get(TestConstants.USERNAME_1)).willReturn(expected);
 
         // When
-        AvailabilityDto response = controller.get(TestConstants.ID_1);
+        AvailabilityDto response = controller.get(TestConstants.USERNAME_1);
 
         // Then
         assertThat(response)
                 .isNotNull()
                 .isEqualTo(expected);
-        verify(service, times(1)).get(TestConstants.ID_1);
+        verify(service, times(1)).get(TestConstants.USERNAME_1);
         verify(service, times(1)).get(any());
     }
 
@@ -81,18 +81,18 @@ public class AvailabilityControllerTest {
         // Given
         AvailabilityDto expected = AvailabilityDto.builder()
                 .id(TestConstants.ID_1)
+                .userName(TestConstants.USERNAME_1)
                 .build();
-        given(service.save(expected)).willReturn(expected);
+        given(service.save(expected, true)).willReturn(expected);
 
         // When
-        AvailabilityDto response = controller.create(expected);
+        AvailabilityDto response = controller.create(expected, TestConstants.USERNAME_1);
 
         // Then
         assertThat(response)
                 .isNotNull()
                 .isEqualTo(expected);
-        verify(service, times(1)).save(expected);
-        verify(service, times(1)).save(any());
+        verify(service, times(1)).save(expected, true);
     }
 
     @Test
@@ -100,18 +100,18 @@ public class AvailabilityControllerTest {
         // Given
         AvailabilityDto expected = AvailabilityDto.builder()
                 .id(TestConstants.ID_1)
+                .userName(TestConstants.USERNAME_1)
                 .build();
-        given(service.save(expected)).willReturn(expected);
+        given(service.save(expected, false)).willReturn(expected);
 
         // When
-        AvailabilityDto response = controller.update(expected);
+        AvailabilityDto response = controller.update(expected, TestConstants.USERNAME_1);
 
         // Then
         assertThat(response)
                 .isNotNull()
                 .isEqualTo(expected);
-        verify(service, times(1)).save(expected);
-        verify(service, times(1)).save(any());
+        verify(service, times(1)).save(expected, false);
     }
 
     @Test
@@ -119,11 +119,12 @@ public class AvailabilityControllerTest {
         // Given
         AvailabilityDto expected = AvailabilityDto.builder()
                 .id(TestConstants.ID_1)
+                .userName(TestConstants.USERNAME_1)
                 .build();
         doNothing().when(service).delete(expected);
 
         // When
-        controller.delete(expected);
+        controller.delete(expected, TestConstants.USERNAME_1);
 
         // Then
         verify(service, times(1)).delete(expected);

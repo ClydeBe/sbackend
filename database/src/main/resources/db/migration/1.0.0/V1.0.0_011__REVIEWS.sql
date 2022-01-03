@@ -1,21 +1,25 @@
-create table t_reviews
+create table reviews
 (
     id         bigserial not null
-        constraint t_reviews_pkey
+        constraint reviews__pk
             primary key,
     comment    text      not null,
     rating     integer   not null,
     reviewer   varchar(255)
         constraint review_reviewer__fk
-            references t_user,
+            references "user",
     self       varchar(255)
         constraint review_user__fk
-            references t_user,
-    updated_at timestamp
+            references "user",
+    updated_at timestamp,
+    constraint reviews_unique_self_reviewer_constraint
+        unique (self, reviewer)
 );
 
-alter table t_reviews
+alter table reviews
     owner to khydnudsjmernm;
 
+create sequence s_reviews owned by reviews.id;
+
 create index self_review__idx
-    on t_reviews (self);
+    on reviews (self);

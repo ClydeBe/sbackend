@@ -9,17 +9,15 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Optional;
 
-import static com.thewheel.sawatu.shared.constant.ApiDocumentationConstants.*;
-import static com.thewheel.sawatu.shared.constant.ApiEndpointsConstants.*;
-import static com.thewheel.sawatu.shared.constant.SecurityConstants.SECURITY_NAME;
+import static com.thewheel.sawatu.constants.ApiDocumentationConstants.*;
+import static com.thewheel.sawatu.constants.ApiEndpointsConstants.*;
+import static com.thewheel.sawatu.constants.SecurityConstants.SECURITY_NAME;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
@@ -39,21 +37,18 @@ public class AvailabilityController {
     @ApiResponse(code = CODE_OK,
             message = MESSAGE_OK,
             response = PageDto.class)
-    @PreAuthorize("#username == authentication.name")
-    @PostFilter("filterObject.userName == authentication.name")
     @GetMapping(ENDPOINT_AVAILABILITY_GET_ALL)
-    public PageDto<AvailabilityDto> getAll(@PathVariable("username") String username,
-                                           @RequestParam("page") Optional<Integer> p,
+    public PageDto<AvailabilityDto> getAll(@RequestParam("page") Optional<Integer> p,
                                            @RequestParam("size") Optional<Integer> s) {
         int page = p.orElse(0);
         int size = s.orElse(20);
-        return availabilityService.list(PageRequest.of(page, size), username);
+        return availabilityService.list(PageRequest.of(page, size));
     }
 
 
 
-    @ApiOperation(value = "Get availability by id",
-            notes = "Return an availability",
+    @ApiOperation(value = AVAILABILITY_GET,
+            notes = AVAILABILITY_GET_NOTE,
             response = AvailabilityDto.class)
     @Operation(
             method = GET,
@@ -63,13 +58,11 @@ public class AvailabilityController {
     @ApiResponse(code = CODE_OK,
             message = MESSAGE_OK,
             response = AvailabilityDto.class)
-    @PostAuthorize("returnObject.get().userName == authentication.name")
     @GetMapping(ENDPOINT_AVAILABILITY_GET)
-    public AvailabilityDto get(@PathVariable("id") Long id) {
-        return availabilityService.get(id);
+    public AvailabilityDto get(@PathVariable String username) {
+        return availabilityService.get(username);
     }
 
-    // TODO  Implements post hierachy and deal with all post requests
 
 
 
@@ -84,10 +77,11 @@ public class AvailabilityController {
     @ApiResponse(code = CODE_CREATED,
             message = MESSAGE_CREATED,
             response = AvailabilityDto.class)
+    @PreAuthorize("#username = authentication.name")
     @ResponseStatus(CREATED)
     @PostMapping(ENDPOINT_AVAILABILITY_CREATE)
-    public AvailabilityDto create(@Valid @RequestBody AvailabilityDto availabilityDto) {
-        return availabilityService.save(availabilityDto);
+    public AvailabilityDto create(@Valid @RequestBody AvailabilityDto availabilityDto, @PathVariable String username) {
+        return availabilityService.save(availabilityDto, true);
     }
 
 
@@ -103,9 +97,10 @@ public class AvailabilityController {
     @ApiResponse(code = CODE_OK,
             message = MESSAGE_OK,
             response = AvailabilityDto.class)
+    @PreAuthorize("#availabilityDto.userName == authentication.name AND #username == #availabilityDto.userName")
     @PutMapping(ENDPOINT_AVAILABILITY_UPDATE)
-    public AvailabilityDto update(@Valid @RequestBody AvailabilityDto availabilityDto) {
-        return availabilityService.save(availabilityDto);
+    public AvailabilityDto update(@Valid @RequestBody AvailabilityDto availabilityDto, @PathVariable String username) {
+        return availabilityService.save(availabilityDto, false);
     }
 
 
@@ -118,10 +113,10 @@ public class AvailabilityController {
     )
     @ApiResponse(code = CODE_OK,
             message = MESSAGE_OK)
-    @PreAuthorize("#availabilityDto.userName == authentication.name")
+    @PreAuthorize("#availabilityDto.userName == authentication.name AND #username == #availabilityDto.userName")
     @DeleteMapping(ENDPOINT_AVAILABILITY_DELETE)
     @ResponseBody
-    public void delete(@RequestBody AvailabilityDto availabilityDto) {
+    public void delete(@RequestBody AvailabilityDto availabilityDto, @PathVariable String username) {
         availabilityService.delete(availabilityDto);
     }
 }

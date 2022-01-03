@@ -16,19 +16,15 @@ import static javax.persistence.FetchType.EAGER;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "t_product_order",
-    indexes = {
-        @Index(name = "user_product_order__idx", columnList = "user_id")
-    }
-)
-@EqualsAndHashCode(callSuper = false)
+@Table(name = "product_order")
 @EntityListeners(AuditingEntityListener.class)
 @Audited
-@AuditTable(value = "audit_product_order")
+@AuditTable(value = "audit_product_order", schema = "audit")
 public class ProductOrder {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_order_generator")
+    @SequenceGenerator(name = "product_order_generator", sequenceName = "s_product_order", allocationSize = 1)
     private Long id;
 
     @Column(name = "items", columnDefinition = "text", nullable = false)
@@ -39,7 +35,7 @@ public class ProductOrder {
 
     @CreatedBy
     @ManyToOne(fetch = EAGER)
-    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "product_order_user__fk"))
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Column(name = "updated_at")

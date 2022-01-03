@@ -9,6 +9,7 @@ import com.thewheel.sawatu.auth.security.token.TokenFactory;
 import com.thewheel.sawatu.core.mailing.EmailService;
 import com.thewheel.sawatu.core.service.interfaces.UserService;
 import com.thewheel.sawatu.database.model.User;
+import com.thewheel.sawatu.shared.dto.ProfileDto;
 import com.thewheel.sawatu.shared.dto.RefreshTokenDto;
 import com.thewheel.sawatu.shared.dto.mapper.Mapper;
 import com.thewheel.sawatu.shared.dto.user.UserDto;
@@ -34,11 +35,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.thewheel.sawatu.shared.constant.ApiDocumentationConstants.*;
-import static com.thewheel.sawatu.shared.constant.ApiEndpointsConstants.*;
-import static com.thewheel.sawatu.shared.constant.Constants.TOKEN_GRANTED_AUTHORITY_NAME;
-import static com.thewheel.sawatu.shared.constant.MessageConstants.*;
-import static com.thewheel.sawatu.shared.constant.SecurityConstants.SECURITY_NAME;
+import static com.thewheel.sawatu.constants.ApiDocumentationConstants.*;
+import static com.thewheel.sawatu.constants.ApiEndpointsConstants.*;
+import static com.thewheel.sawatu.constants.Constants.TOKEN_GRANTED_AUTHORITY_NAME;
+import static com.thewheel.sawatu.constants.MessageConstants.*;
+import static com.thewheel.sawatu.constants.SecurityConstants.SECURITY_NAME;
 
 @RestController
 @RequestMapping("/account")
@@ -73,12 +74,9 @@ public class AccountController {
             response = UserDto.class)
     @GetMapping(ENDPOINT_ACCOUNT_GET_USER)
     @PreAuthorize("#username == authentication.name")
-    public UserDto getUserById(@PathVariable("username") String username) {
-        return userService.getUser(username);
+    public ProfileDto getUserById(@PathVariable("username") String username) {
+        return userService.getProfile(username);
     }
-
-
-
 
     @ApiOperation(value = ACCOUNT_CREATE_USER,
             notes = ACCOUNT_CREATE_USER_NOTE,

@@ -3,7 +3,7 @@ package com.thewheel.sawatu.core.service.implementations;
 import com.thewheel.sawatu.core.service.interfaces.HaircutOrderService;
 import com.thewheel.sawatu.database.model.HaircutOrder;
 import com.thewheel.sawatu.database.repository.HaircutOrderRepository;
-import com.thewheel.sawatu.shared.constant.MessageConstants;
+import com.thewheel.sawatu.constants.MessageConstants;
 import com.thewheel.sawatu.shared.dto.HaircutOrderDto;
 import com.thewheel.sawatu.shared.dto.PageDto;
 import com.thewheel.sawatu.shared.dto.mapper.Mapper;

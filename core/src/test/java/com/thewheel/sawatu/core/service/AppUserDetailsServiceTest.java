@@ -1,8 +1,8 @@
 package com.thewheel.sawatu.core.service;
 
 import com.thewheel.sawatu.core.service.interfaces.UserService;
-import com.thewheel.sawatu.database.model.Role;
-import com.thewheel.sawatu.shared.constant.TestConstants;
+import com.thewheel.sawatu.Role;
+import com.thewheel.sawatu.constants.TestConstants;
 import com.thewheel.sawatu.shared.dto.user.UserDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;

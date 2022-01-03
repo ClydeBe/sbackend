@@ -1,6 +1,6 @@
-package com.thewheel.sawatu.shared.constant;
+package com.thewheel.sawatu.constants;
 
-import com.thewheel.sawatu.database.model.Role;
+import com.thewheel.sawatu.Role;
 
 public class TestConstants {
 
@@ -21,11 +21,6 @@ public class TestConstants {
     public static final String EMAIL_2 = String.format(EMAIL, "2");
     public static final String EMAIL_3 = String.format(EMAIL, "3");
     public static final String EMAIL_4 = String.format(EMAIL, "4");
-
-    public final static Role ROLE_VENDOR = Role.VENDOR;
-    public final static Role ROLE_ADMIN = Role.ADMIN;
-    public final static Role ROLE_STAFF = Role.STAFF;
-    public final static Role ROLE_USER = Role.USER;
 
     private static final String PASSWORD = "#SAWATU@PASSWORD_";
     public static final String PASSWORD_1 = "#SAWATU@PASSWORD_1";
@@ -49,8 +44,13 @@ public class TestConstants {
     public final static String LABEL_1 = LABEL + 1;
     public final static String LABEL_2 = LABEL + 2;
 
-    public final static long DURATION_1 = 10;
-    public final static long DURATION_2 = 20;
+    public final static Role ROLE_USER =Role.USER;
+    public final static Role ROLE_ADMIN =Role.ADMIN;
+    public final static Role ROLE_STAFF =Role.STAFF;
+    public final static Role ROLE_VENDOR =Role.VENDOR;
+
+    public final static short DURATION_1 = 10;
+    public final static short DURATION_2 = 20;
 
     public final static float PRICE_1 = 10;
     public final static float PRICE_2 = 20;
@@ -68,8 +68,8 @@ public class TestConstants {
     public final static String STRING_CONSTANT_3 = STRING_CONSTANT + 3;
     public final static String STRING_CONSTANT_4 = STRING_CONSTANT + 4;
 
-    public static final long NUMERIC_CONSTANT_1 = 1L;
-    public static final long NUMERIC_CONSTANT_2 = 2L;
+    public static final short NUMERIC_CONSTANT_1 = 1;
+    public static final short NUMERIC_CONSTANT_2 = 2;
 
     private TestConstants() {}
 }

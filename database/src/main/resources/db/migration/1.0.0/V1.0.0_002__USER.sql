@@ -1,7 +1,7 @@
-create table t_user
+create table public.user
 (
     username   varchar(255)          not null
-        constraint t_user_pkey
+        constraint user_pkey
             primary key,
     city       varchar(255),
     country    varchar(255),
@@ -9,7 +9,7 @@ create table t_user
     street     varchar(255),
     zipcode    integer,
     email      varchar(255)          not null
-        constraint unique_email__constraint
+        constraint user_unique_email_constraint
             unique,
     firstname  varchar(255),
     is_active  boolean default false not null,
@@ -21,20 +21,20 @@ create table t_user
     updated_at timestamp
 );
 
-create table audit_user
+create table audit.audit_user
 (
     username varchar(255) not null,
     rev      integer      not null
         constraint audit_user_rev_info
-            references revinfo,
+            references audit.revinfo,
     revtype  smallint,
     role     varchar(255),
     constraint audit_user_pkey
         primary key (username, rev)
 );
 
-alter table t_user
+alter table public."user"
     owner to khydnudsjmernm;
 
-alter table audit_user
+alter table audit.audit_user
     owner to khydnudsjmernm;

@@ -1,21 +1,21 @@
-create table t_product_order
+create table product_order
 (
-    id         bigserial not null
-        constraint t_product_order_pkey
+    id         bigint not null
+        constraint product_order__pk
             primary key,
-    items      text      not null,
+    items      text   not null,
     updated_at timestamp,
     user_id    varchar(255)
         constraint product_order_user__fk
-            references t_user
+            references "user"
 );
 
-create table audit_product_order
+create table audit.audit_product_order
 (
     id         bigint  not null,
     rev        integer not null
         constraint audit_product_order_rev_info
-            references revinfo,
+            references audit.revinfo,
     revtype    smallint,
     items      text,
     updated_at timestamp,
@@ -25,11 +25,13 @@ create table audit_product_order
 );
 
 
-alter table t_product_order
+alter table product_order
     owner to khydnudsjmernm;
 
-create index user_product_order__idx
-    on t_product_order (user_id);
+create sequence s_product_order owned by product_order.id;
 
-alter table audit_product_order
+create index user_product_order__idx
+    on product_order (user_id);
+
+alter table audit.audit_product_order
     owner to khydnudsjmernm;

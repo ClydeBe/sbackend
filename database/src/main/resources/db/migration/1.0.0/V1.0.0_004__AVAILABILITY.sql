@@ -1,21 +1,21 @@
-create table t_avaibility
+create table availability
 (
-    id             bigserial not null
-        constraint t_avaibility_pkey
-            primary key,
+    id             bigint not null,
     availabilities text,
     updated_at     timestamp,
     user_id        varchar(255)
         constraint availability_user__fk
-            references t_user
+            references "user",
+    constraint availability__pk
+        primary key (user_id, id)
 );
 
-create table audit_availability
+create table audit.audit_availability
 (
     id             bigint  not null,
     rev            integer not null
         constraint audit_availability_rev_info
-            references revinfo,
+            references audit.revinfo,
     revtype        smallint,
     availabilities text,
     updated_at     timestamp,
@@ -24,12 +24,13 @@ create table audit_availability
         primary key (id, rev)
 );
 
+create sequence s_availability owned by availability.id;
 
 create index user_availability__idx
-    on t_avaibility (user_id);
+    on availability (user_id);
 
-alter table t_avaibility
+alter table availability
     owner to khydnudsjmernm;
 
-alter table audit_availability
+alter table audit.audit_availability
     owner to khydnudsjmernm;

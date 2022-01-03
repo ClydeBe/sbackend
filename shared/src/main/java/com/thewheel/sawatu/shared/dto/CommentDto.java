@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,9 +22,8 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 public class CommentDto {
 
     private Long id;
-    @JsonInclude(NON_NULL)
     private Long replyId;
-    @NotBlank
+    @NotNull
     private Long postId;
     @NotBlank
     private String body;
@@ -34,7 +34,6 @@ public class CommentDto {
     @JsonInclude(NON_NULL)
     private List<CommentDto> comments;
 
-    @JsonInclude(NON_NULL)
     private UserDto author;
 
     private LocalDateTime updatedAt;

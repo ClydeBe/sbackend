@@ -1,5 +1,6 @@
 package com.thewheel.sawatu.database.repository;
 
+import com.thewheel.sawatu.Role;
 import com.thewheel.sawatu.database.model.*;
 import lombok.Synchronized;
 import org.junit.jupiter.api.Test;

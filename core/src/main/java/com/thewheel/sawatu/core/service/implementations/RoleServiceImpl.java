@@ -1,11 +1,11 @@
 package com.thewheel.sawatu.core.service.implementations;
 
 import com.thewheel.sawatu.core.service.interfaces.RoleService;
-import com.thewheel.sawatu.database.model.Role;
+import com.thewheel.sawatu.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static com.thewheel.sawatu.database.model.Role.*;
+import static com.thewheel.sawatu.Role.*;
 
 @Service
 @RequiredArgsConstructor

@@ -1,9 +1,9 @@
-create table t_haircut
+create table haircut
 (
-    id         bigserial not null
-        constraint t_haircut_pkey
+    id         bigint not null
+        constraint haircut__pk
             primary key,
-    duration   bigint,
+    duration   int2,
     label      varchar(255),
     photo      text      not null,
     price      real,
@@ -11,17 +11,17 @@ create table t_haircut
     vat_ratio  real,
     vendor_id  varchar(255)
         constraint haircut_user__fk
-            references t_user
+            references "user"
 );
 
-create table audit_haircut
+create table audit.audit_haircut
 (
     id         bigint  not null,
     rev        integer not null
         constraint audit_haircut_rev_info
-            references revinfo,
+            references audit.revinfo,
     revtype    smallint,
-    duration   bigint,
+    duration   int2,
     label      varchar(255),
     photo      text,
     price      real,
@@ -32,8 +32,10 @@ create table audit_haircut
         primary key (id, rev)
 );
 
-alter table t_haircut
+create sequence s_haircut owned by haircut.id;
+
+alter table haircut
     owner to khydnudsjmernm;
 
-alter table audit_haircut
+alter table audit.audit_haircut
     owner to khydnudsjmernm;

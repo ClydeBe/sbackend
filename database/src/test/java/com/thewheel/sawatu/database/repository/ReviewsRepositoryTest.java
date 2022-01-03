@@ -1,7 +1,7 @@
 package com.thewheel.sawatu.database.repository;
 
 import com.thewheel.sawatu.database.model.Reviews;
-import com.thewheel.sawatu.database.model.Role;
+import com.thewheel.sawatu.Role;
 import com.thewheel.sawatu.database.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;

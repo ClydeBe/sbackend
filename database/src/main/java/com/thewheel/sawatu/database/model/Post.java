@@ -16,17 +16,16 @@ import static javax.persistence.FetchType.EAGER;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "t_post", schema = "public",
-    indexes = @Index(name = "post_author__idx", columnList = "author_id")
-)
+@Table(name = "post")
 @EqualsAndHashCode(callSuper = false)
 @EntityListeners(AuditingEntityListener.class)
 @Audited
-@AuditTable(value = "audit_post")
+@AuditTable(value = "audit_post", schema = "audit")
 public class Post {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_generator")
+    @SequenceGenerator(name = "post_generator", sequenceName = "s_post", allocationSize = 1)
     private Long id;
 
     @Column(name = "cover")
@@ -46,7 +45,7 @@ public class Post {
 
     @CreatedBy
     @ManyToOne(fetch = EAGER)
-    @JoinColumn(name = "author_id", foreignKey = @ForeignKey(name = "post_user__fk"), nullable = false)
+    @JoinColumn(name = "author_id", nullable = false)
     private User author;
 
     @Column(name = "updated_at")

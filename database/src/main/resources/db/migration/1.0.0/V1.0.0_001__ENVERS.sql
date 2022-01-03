@@ -1,8 +1,8 @@
-create sequence hibernate_sequence;
+-- create sequence hibernate_sequence;
+--
+-- alter sequence hibernate_sequence owner to khydnudsjmernm;
 
-alter sequence hibernate_sequence owner to khydnudsjmernm;
-
-create table revinfo
+create table audit.revinfo
 (
     rev integer not null
         constraint revinfo_pkey
@@ -10,4 +10,4 @@ create table revinfo
     revtstmp bigint
 );
 
-alter table revinfo owner to khydnudsjmernm;
+alter table audit.revinfo owner to khydnudsjmernm;

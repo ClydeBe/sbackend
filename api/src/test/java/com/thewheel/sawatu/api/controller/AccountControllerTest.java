@@ -2,12 +2,13 @@ package com.thewheel.sawatu.api.controller;
 
 import com.thewheel.sawatu.auth.security.SignatureFactory;
 import com.thewheel.sawatu.auth.security.token.TokenFactory;
+import com.thewheel.sawatu.shared.dto.ProfileDto;
 import com.thewheel.sawatu.shared.exception.BadRequestException;
 import com.thewheel.sawatu.core.mailing.EmailService;
 import com.thewheel.sawatu.core.service.interfaces.UserService;
 import com.thewheel.sawatu.database.model.User;
-import com.thewheel.sawatu.shared.constant.MessageConstants;
-import com.thewheel.sawatu.shared.constant.TestConstants;
+import com.thewheel.sawatu.constants.MessageConstants;
+import com.thewheel.sawatu.constants.TestConstants;
 import com.thewheel.sawatu.shared.dto.mapper.Mapper;
 import com.thewheel.sawatu.shared.dto.user.UserDto;
 import org.assertj.core.api.AbstractThrowableAssert;
@@ -59,17 +60,23 @@ public class AccountControllerTest {
                 .role(TestConstants.ROLE_USER)
                 .password(TestConstants.PASSWORD_1)
                 .build();
-        given(userService.getUser(TestConstants.USERNAME_1)).willReturn(user);
+        ProfileDto profile = ProfileDto.builder()
+                .user(user)
+                .rate(5)
+                .haircutCount(27)
+                .followersCount(27)
+                .build();
+        given(userService.getProfile(TestConstants.USERNAME_1)).willReturn(profile);
 
         // When
-        UserDto response = controller.getUserById(TestConstants.USERNAME_1);
+        ProfileDto response = controller.getUserById(TestConstants.USERNAME_1);
 
         // Then
         assertThat(response)
                 .isNotNull()
-                .isEqualTo(user);
-        verify(userService, times(1)).getUser(TestConstants.USERNAME_1);
-        verify(userService, times(1)).getUser(any());
+                .isEqualTo(profile);
+        verify(userService, times(1)).getProfile(TestConstants.USERNAME_1);
+        verify(userService, times(1)).getProfile(any());
     }
 
     @Test

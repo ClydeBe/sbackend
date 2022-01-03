@@ -1,6 +1,6 @@
 package com.thewheel.sawatu.core.service.implementations;
 
-import com.thewheel.sawatu.database.model.Role;
+import com.thewheel.sawatu.Role;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

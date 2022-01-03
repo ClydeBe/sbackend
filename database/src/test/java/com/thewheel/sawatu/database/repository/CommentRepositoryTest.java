@@ -2,7 +2,7 @@ package com.thewheel.sawatu.database.repository;
 
 import com.thewheel.sawatu.database.model.Comment;
 import com.thewheel.sawatu.database.model.Post;
-import com.thewheel.sawatu.database.model.Role;
+import com.thewheel.sawatu.Role;
 import com.thewheel.sawatu.database.model.User;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;

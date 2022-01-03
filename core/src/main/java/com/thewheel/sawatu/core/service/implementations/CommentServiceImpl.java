@@ -4,7 +4,7 @@ import com.thewheel.sawatu.core.service.interfaces.CommentService;
 import com.thewheel.sawatu.database.model.Comment;
 import com.thewheel.sawatu.database.model.Post;
 import com.thewheel.sawatu.database.repository.CommentRepository;
-import com.thewheel.sawatu.shared.constant.MessageConstants;
+import com.thewheel.sawatu.constants.MessageConstants;
 import com.thewheel.sawatu.shared.dto.CommentDto;
 import com.thewheel.sawatu.shared.dto.PageDto;
 import com.thewheel.sawatu.shared.dto.mapper.Mapper;

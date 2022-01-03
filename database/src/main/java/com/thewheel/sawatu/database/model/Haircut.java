@@ -8,7 +8,6 @@ import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.EAGER;
@@ -18,13 +17,14 @@ import static javax.persistence.FetchType.EAGER;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "t_haircut")
+@Table(name = "haircut")
 @Audited
-@AuditTable(value = "audit_haircut")
+@AuditTable(value = "audit_haircut", schema = "audit")
 public class Haircut {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "haircut_generator")
+    @SequenceGenerator(name = "haircut_generator", sequenceName = "s_haircut", allocationSize = 1)
     private Long id;
 
     @Column(name = "label")
@@ -32,7 +32,7 @@ public class Haircut {
 
     // Duration in minutes
     @Column(name = "duration")
-    private Duration duration;
+    private Short duration;
 
     @Column(name = "price")
     private Float price;
@@ -47,7 +47,7 @@ public class Haircut {
     private String vendorName;
 
     @ManyToOne(fetch = EAGER)
-    @JoinColumn(name = "vendor_id", foreignKey = @ForeignKey(name = "haircut_user__fk"))
+    @JoinColumn(name = "vendor_id")
     private User vendor;
 
     @Column(name = "updated_at")

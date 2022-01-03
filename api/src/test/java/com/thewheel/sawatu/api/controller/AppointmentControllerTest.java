@@ -1,7 +1,7 @@
 package com.thewheel.sawatu.api.controller;
 
 import com.thewheel.sawatu.core.service.interfaces.AppointmentService;
-import com.thewheel.sawatu.shared.constant.TestConstants;
+import com.thewheel.sawatu.constants.TestConstants;
 import com.thewheel.sawatu.shared.dto.AppointmentDto;
 import com.thewheel.sawatu.shared.dto.PageDto;
 import org.junit.Test;

@@ -20,19 +20,15 @@ import static javax.persistence.FetchType.EAGER;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "t_appointment",
-    indexes = {
-        @Index(name = "client_appointment__idx", columnList = "client_id"),
-        @Index(name = "vendor_appointment__idx", columnList = "vendor_id")
-    }
-)
+@Table(name = "appointment")
 @EntityListeners(AuditingEntityListener.class)
 @Audited
-@AuditTable(value = "audit_appointment")
+@AuditTable(value = "audit_appointment", schema = "audit")
 public class Appointment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appointment_generator")
+    @SequenceGenerator(name = "appointment_generator", sequenceName = "s_appointment", allocationSize = 1)
     private Long id;
 
     @Column(name = "date_time")

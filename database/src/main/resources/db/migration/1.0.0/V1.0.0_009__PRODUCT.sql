@@ -1,7 +1,7 @@
-create table t_product
+create table product
 (
-    id              bigserial not null
-        constraint t_product_pkey
+    id              bigint not null
+        constraint product__pk
             primary key,
     characteristics text,
     description     text,
@@ -12,16 +12,16 @@ create table t_product
     updated_at      timestamp,
     usage           varchar(255),
     vendor_id       varchar(255)
-        constraint fk47nrt3pcg8o3j5ks01o6ek6ai
-            references t_user
+        constraint product_vendor__fk
+            references "user"
 );
 
-create table audit_product
+create table audit.audit_product
 (
     id              bigint  not null,
     rev             integer not null
         constraint audit_product_rev_info
-            references revinfo,
+            references audit.revinfo,
     revtype         smallint,
     characteristics text,
     description     text,
@@ -36,20 +36,22 @@ create table audit_product
         primary key (id, rev)
 );
 
-alter table t_product
+alter table product
     owner to khydnudsjmernm;
 
-alter table audit_product
+alter table audit.audit_product
     owner to khydnudsjmernm;
+
+create sequence s_product owned by product.id;
 
 create index product_price__idx
-    on t_product (price);
+    on product (price);
 
-alter table t_product
+alter table product
     add column text_search tsvector;
 
 create index product_text_search__idx
-    on t_product using gin (text_search);
+    on product using gin (text_search);
 
 CREATE OR REPLACE FUNCTION product_search_trigger()
     RETURNS trigger
@@ -67,6 +69,6 @@ $$;
 
 CREATE TRIGGER search_text_trigger
     BEFORE INSERT OR UPDATE
-    ON t_product
+    ON product
     FOR EACH ROW
 EXECUTE PROCEDURE product_search_trigger();

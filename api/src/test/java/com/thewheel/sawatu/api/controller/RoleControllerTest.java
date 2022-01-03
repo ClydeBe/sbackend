@@ -1,9 +1,7 @@
 package com.thewheel.sawatu.api.controller;
 
-import com.thewheel.sawatu.database.model.Role;
+import com.thewheel.sawatu.Role;
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 

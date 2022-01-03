@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 
-import static com.thewheel.sawatu.shared.constant.Constants.TOKEN_GRANTED_AUTHORITY_NAME;
+import static com.thewheel.sawatu.constants.Constants.TOKEN_GRANTED_AUTHORITY_NAME;
 
 public class AppAuthorizationFilter extends OncePerRequestFilter {
     private final SignatureFactory signatureFactory;
@@ -46,7 +46,7 @@ public class AppAuthorizationFilter extends OncePerRequestFilter {
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedToken = verifier.verify(token);
                 String username = decodedToken.getSubject();
-                String role = decodedToken.getClaim(TOKEN_GRANTED_AUTHORITY_NAME).asString();
+                String role = decodedToken.getClaim(TOKEN_GRANTED_AUTHORITY_NAME).asArray(String.class)[0];
                 UsernamePasswordAuthenticationToken auth =
                         new UsernamePasswordAuthenticationToken(
                                 username,

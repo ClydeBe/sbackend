@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Optional;
 
-import static com.thewheel.sawatu.shared.constant.ApiDocumentationConstants.*;
-import static com.thewheel.sawatu.shared.constant.ApiEndpointsConstants.*;
-import static com.thewheel.sawatu.shared.constant.SecurityConstants.SECURITY_NAME;
+import static com.thewheel.sawatu.constants.ApiDocumentationConstants.*;
+import static com.thewheel.sawatu.constants.ApiEndpointsConstants.*;
+import static com.thewheel.sawatu.constants.SecurityConstants.SECURITY_NAME;
 
 @RestController
 @RequiredArgsConstructor
@@ -76,7 +76,7 @@ public class ReviewController {
 
     @ApiOperation(value = REVIEW_UPDATE,
             notes = REVIEW_UPDATE_NOTE,
-            response = ReviewDto.class)
+             response = ReviewDto.class)
     @Operation(
             method = PUT,
             description = REVIEW_UPDATE,

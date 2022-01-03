@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Optional;
 
-import static com.thewheel.sawatu.shared.constant.ApiDocumentationConstants.*;
-import static com.thewheel.sawatu.shared.constant.ApiEndpointsConstants.*;
-import static com.thewheel.sawatu.shared.constant.SecurityConstants.SECURITY_NAME;
+import static com.thewheel.sawatu.constants.ApiDocumentationConstants.*;
+import static com.thewheel.sawatu.constants.ApiEndpointsConstants.*;
+import static com.thewheel.sawatu.constants.SecurityConstants.SECURITY_NAME;
 
 @RestController
 @RequiredArgsConstructor
@@ -61,7 +61,7 @@ public class ProductOrderController {
     @ApiResponse(code = CODE_OK,
             message = MESSAGE_OK,
             response = ProductOrderDto.class)
-    @PostAuthorize("returnObject.get().userName == authentication.name")
+    @PostAuthorize("returnObject.userName == authentication.name")
     @GetMapping(ENDPOINT_PRODUCT_ORDER_GET)
     public ProductOrderDto get(@PathVariable("id") Long id) {
         return productOrderService.get(id);

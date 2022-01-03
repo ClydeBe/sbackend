@@ -20,6 +20,7 @@ spring:
             format_sql: true
             audit_table_suffix: ''
             audit_table_prefix: audit_
+            default_schema: audit
       hibernate:
         format_sql: true
 #  security:

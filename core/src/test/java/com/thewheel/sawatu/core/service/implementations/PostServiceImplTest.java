@@ -2,8 +2,8 @@ package com.thewheel.sawatu.core.service.implementations;
 
 import com.thewheel.sawatu.database.model.Post;
 import com.thewheel.sawatu.database.repository.PostRepository;
-import com.thewheel.sawatu.shared.constant.MessageConstants;
-import com.thewheel.sawatu.shared.constant.TestConstants;
+import com.thewheel.sawatu.constants.MessageConstants;
+import com.thewheel.sawatu.constants.TestConstants;
 import com.thewheel.sawatu.shared.dto.PageDto;
 import com.thewheel.sawatu.shared.dto.PostDto;
 import com.thewheel.sawatu.shared.dto.mapper.Mapper;

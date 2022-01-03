@@ -17,19 +17,15 @@ import static javax.persistence.FetchType.EAGER;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "t_haircut_order",
-    indexes = {
-        @Index(name = "client_haircut_order_id__idx", columnList = "client_id")
-    }
-)
-@EqualsAndHashCode(callSuper = false)
+@Table(name = "haircut_order")
 @EntityListeners(AuditingEntityListener.class)
 @Audited
-@AuditTable(value = "audit_haircut_order")
+@AuditTable(value = "audit_haircut_order", schema = "audit")
 public class HaircutOrder {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "haircut_order_generator")
+    @SequenceGenerator(name = "haircut_order_generator", sequenceName = "s_haircut_order", allocationSize = 1)
     private Long id;
 
     @Column(name = "description", columnDefinition = "text", nullable = false)
@@ -46,11 +42,11 @@ public class HaircutOrder {
 
     @CreatedBy
     @ManyToOne(fetch = EAGER)
-    @JoinColumn(name = "client_id", foreignKey = @ForeignKey(name = "haircut_order_client__fk"))
+    @JoinColumn(name = "client_id")
     private User client;
 
     @ManyToOne
-    @JoinColumn(name = "haircut_id", foreignKey = @ForeignKey(name = "haircut_order_haircut__fk"))
+    @JoinColumn(name = "haircut_id")
     private Haircut haircut;
 
     @Singular

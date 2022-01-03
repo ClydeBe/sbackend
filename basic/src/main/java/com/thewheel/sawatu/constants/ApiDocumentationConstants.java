@@ -1,4 +1,4 @@
-package com.thewheel.sawatu.shared.constant;
+package com.thewheel.sawatu.constants;
 
 public class ApiDocumentationConstants {
 
@@ -36,21 +36,21 @@ public class ApiDocumentationConstants {
     public static final String APPOINTMENT_CREATE = "Create new appointment";
     public static final String APPOINTMENT_DELETE = "Delete user's appointment";
 
-    public static final String APPOINTMENT_GET_ALL_NOTE = "Return page of appointment";
-    public static final String APPOINTMENT_GET_NOTE = "Return an appointment";
-    public static final String APPOINTMENT_CREATE_NOTE = "Return the created appointment";
-    public static final String APPOINTMENT_DELETE_NOTE = "Void method";
+    public static final String APPOINTMENT_GET_ALL_NOTE = "Returns page of appointment";
+    public static final String APPOINTMENT_GET_NOTE = "Returns an appointment";
+    public static final String APPOINTMENT_CREATE_NOTE = "Returns the created appointment";
 
     // Availability
     public static final String AVAILABILITY_GET_ALL = "Get user's availabilities";
-    public static final String AVAILABILITY_GET = "Get availability by id";
+    public static final String AVAILABILITY_GET = "Get user's availability";
     public static final String AVAILABILITY_CREATE = "Create availability";
-    public static final String AVAILABILITY_DELETE = "Delete availability";
     public static final String AVAILABILITY_UPDATE = "Update availability";
+    public static final String AVAILABILITY_DELETE = "Delete availability";
 
-    public static final String AVAILABILITY_GET_ALL_NOTE = "Return page of availabilities";
-    public static final String AVAILABILITY_CREATE_NOTE = "Return created availability";
-    public static final String AVAILABILITY_UPDATE_NOTE = "Return updated availability";
+    public static final String AVAILABILITY_GET_ALL_NOTE = "Returns page of availabilities";
+    public static final String AVAILABILITY_GET_NOTE = "Returns user's availability";
+    public static final String AVAILABILITY_CREATE_NOTE = "Returns created availability";
+    public static final String AVAILABILITY_UPDATE_NOTE = "Returns updated availability";
 
     // Comment
     public static final String COMMENT_GET_ALL = "Get post's comments";
@@ -147,7 +147,7 @@ public class ApiDocumentationConstants {
 
     public static final String ROLE_GET_NOTE = "Return application roles";
 
-    // Statistics
+    // Statistic
     public static final String STATISTICS_GET = "Get user's statistics";
 
     public static final String STATISTICS_GET_NOTE = "Return user's statistics";

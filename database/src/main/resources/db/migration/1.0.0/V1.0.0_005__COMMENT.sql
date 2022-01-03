@@ -1,23 +1,25 @@
-create table t_comment
+create table comment
 (
-    id         bigserial not null
-        constraint t_comment_pkey
+    id         bigint not null
+        constraint comment_pkey
             primary key,
     author_id  varchar(255)
         constraint comment_user__fk
-            references t_user,
+            references "user",
     body       text,
     post_id    bigint
         constraint comment_post__fk
-            references t_post,
+            references post,
     reply_id   bigint
         constraint comment_reply__fk
-            references t_comment,
+            references comment,
     updated_at timestamp
 );
 
-alter table t_comment
+create sequence s_comment owned by comment.id;
+
+alter table comment
     owner to khydnudsjmernm;
 
 create index post__idx
-    on t_comment (post_id);
+    on comment (post_id);

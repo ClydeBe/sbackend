@@ -2,7 +2,7 @@ package com.thewheel.sawatu.api.controller;
 
 
 import com.thewheel.sawatu.core.service.interfaces.ReviewService;
-import com.thewheel.sawatu.shared.constant.TestConstants;
+import com.thewheel.sawatu.constants.TestConstants;
 import com.thewheel.sawatu.shared.dto.PageDto;
 import com.thewheel.sawatu.shared.dto.ReviewDto;
 import org.junit.Test;

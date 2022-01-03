@@ -1,26 +1,26 @@
-create table t_haircut_order
+create table haircut_order
 (
-    id                 bigserial not null
-        constraint t_haircut_order_pkey
+    id                 bigint not null
+        constraint haircut_order__pk
             primary key,
     client_id          varchar(255)
         constraint haircut_order_client__fk
-            references t_user,
+            references "user",
     haircut_order_date timestamp,
     description        text      not null,
     price              real,
     updated_at         timestamp,
     haircut_id         bigint
         constraint haircut_order_haircut__fk
-            references t_haircut
+            references haircut
 );
 
-create table audit_haircut_order
+create table audit.audit_haircut_order
 (
     id                 bigint  not null,
     rev                integer not null
         constraint audit_haircut_order_rev_info
-            references revinfo,
+            references audit.revinfo,
     revtype            smallint,
     client_id          varchar(255),
     haircut_order_date timestamp,
@@ -32,8 +32,10 @@ create table audit_haircut_order
         primary key (id, rev)
 );
 
-alter table t_haircut_order
+create sequence s_haircut_order owned by haircut_order.id;
+
+alter table haircut_order
     owner to khydnudsjmernm;
 
-alter table audit_haircut_order
+alter table audit.audit_haircut_order
     owner to khydnudsjmernm;

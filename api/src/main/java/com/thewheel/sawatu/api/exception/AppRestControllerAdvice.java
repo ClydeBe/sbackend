@@ -2,9 +2,11 @@ package com.thewheel.sawatu.api.exception;
 
 import com.thewheel.sawatu.shared.exception.BadRequestException;
 import com.thewheel.sawatu.shared.exception.InvalidOperationException;
+import com.thewheel.sawatu.shared.exception.ServerException;
 import org.hibernate.TransientPropertyValueException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -42,6 +44,17 @@ public class AppRestControllerAdvice {
                 .build();
     }
 
+    @ExceptionHandler(ServerException.class)
+    @ResponseStatus(INTERNAL_SERVER_ERROR)
+    public AppError handleServerException(ServerException exception) {
+        final HttpStatus serverError = INTERNAL_SERVER_ERROR;
+        return AppError.builder()
+                .httpCode(serverError.value())
+                .message(exception.getMessage())
+                .cause(exception.getMessage())
+                .build();
+    }
+
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(FORBIDDEN)
     public AppError handleAccessDeniedException(AccessDeniedException exception) {
@@ -61,6 +74,16 @@ public class AppRestControllerAdvice {
                 .httpCode(badRequest.value())
                 .message(exception.getMessage())
                 .cause("Cannot find GET parameters")
+                .build();
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public AppError handleHttpMessageNotReadableException(HttpMessageNotReadableException exception) {
+        final HttpStatus badRequest = BAD_REQUEST;
+        return AppError.builder()
+                .httpCode(badRequest.value())
+                .message(exception.getMessage())
                 .build();
     }
 

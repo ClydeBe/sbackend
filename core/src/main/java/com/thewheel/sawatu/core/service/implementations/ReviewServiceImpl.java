@@ -3,7 +3,7 @@ package com.thewheel.sawatu.core.service.implementations;
 import com.thewheel.sawatu.core.service.interfaces.ReviewService;
 import com.thewheel.sawatu.database.model.Reviews;
 import com.thewheel.sawatu.database.repository.ReviewsRepository;
-import com.thewheel.sawatu.shared.constant.MessageConstants;
+import com.thewheel.sawatu.constants.MessageConstants;
 import com.thewheel.sawatu.shared.dto.PageDto;
 import com.thewheel.sawatu.shared.dto.ReviewDto;
 import com.thewheel.sawatu.shared.dto.mapper.Mapper;

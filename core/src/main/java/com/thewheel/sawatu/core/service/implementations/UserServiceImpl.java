@@ -1,12 +1,14 @@
 package com.thewheel.sawatu.core.service.implementations;
 
+import com.thewheel.sawatu.database.model.Profile;
+import com.thewheel.sawatu.database.repository.ProfileRepository;
+import com.thewheel.sawatu.shared.dto.ProfileDto;
 import com.thewheel.sawatu.shared.exception.BadRequestException;
-import com.thewheel.sawatu.core.service.interfaces.RoleService;
 import com.thewheel.sawatu.core.service.interfaces.UserService;
-import com.thewheel.sawatu.database.model.Role;
+import com.thewheel.sawatu.Role;
 import com.thewheel.sawatu.database.model.User;
 import com.thewheel.sawatu.database.repository.UserRepository;
-import com.thewheel.sawatu.shared.constant.MessageConstants;
+import com.thewheel.sawatu.constants.MessageConstants;
 import com.thewheel.sawatu.shared.dto.PageDto;
 import com.thewheel.sawatu.shared.dto.mapper.Mapper;
 import com.thewheel.sawatu.shared.dto.user.UserDto;
@@ -26,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-    private final RoleService roleService;
+    private final ProfileRepository profileRepository;
     private final Mapper mapper;
 
     @Override
@@ -62,6 +64,13 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUsernameOrEmail(username).orElseThrow(
                 () -> new EntityNotFoundException(String.format(MessageConstants.USER_NOT_FOUND, username)));
         return mapper.fromEntity(user);
+    }
+
+    @Override
+    public ProfileDto getProfile(String username) {
+        Profile profile = profileRepository.findByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException(String.format(MessageConstants.USER_NOT_FOUND, username)));
+        return mapper.fromEntity(profile);
     }
 
     @Override

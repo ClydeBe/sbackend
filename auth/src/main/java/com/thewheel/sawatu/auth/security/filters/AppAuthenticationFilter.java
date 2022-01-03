@@ -5,8 +5,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thewheel.sawatu.auth.security.SecurityConstantsBean;
 import com.thewheel.sawatu.auth.security.SignatureFactory;
-import com.thewheel.sawatu.shared.constant.Constants;
-import com.thewheel.sawatu.shared.dto.user.CreateOrUpdateUser;
+import com.thewheel.sawatu.constants.Constants;
+import com.thewheel.sawatu.shared.dto.user.LoginDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,8 +41,7 @@ public class AppAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
         try {
-            CreateOrUpdateUser credentials = new ObjectMapper().readValue(request.getInputStream(),
-                                                                          CreateOrUpdateUser.class);
+            LoginDto credentials = new ObjectMapper().readValue(request.getInputStream(), LoginDto.class);
             Authentication token = new UsernamePasswordAuthenticationToken(credentials.getUsername(),
                                                                            credentials.getPassword());
             return authenticationManager.authenticate(token);
